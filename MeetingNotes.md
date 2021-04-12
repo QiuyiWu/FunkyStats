@@ -20,7 +20,12 @@ GUI analysis (David)
 - change some features to allviate the discrimination 
 - redistribute the cops based on races
 
-TODO before Saturday:
+### TODO before Saturday
 - Searching for/ think about the possible measurements for fairness
 - Exploratory Analysis
 - Seeking other usable data
+
+### Useful Links
+- Main data: 2019 Racial Profiling (RP) Warning and Field Observations (https://data.austintexas.gov/Public-Safety/2019-Racial-Profiling-RP-Warning-and-Field-Observa/djcn-eje6)
+- Overleaf for report: 
+- Overleaf for presentation:
