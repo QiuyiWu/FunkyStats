@@ -1,5 +1,5 @@
 ## Apr 12, Monday
-#### Step 1 (Hypothesiss Test)
+#### Step 1 (Hypothesis Testing)
 Test null hypothesis: Fairness in traffic stops does not exist in Austin. Chi-square test (assumption: Each observation is independent of all the others)
 
 #### Step 2 (Exploratory Analysis)
@@ -27,5 +27,5 @@ GUI analysis (David)
 
 ### Useful Links
 - Main data: 2019 Racial Profiling (RP) Warning and Field Observations (https://data.austintexas.gov/Public-Safety/2019-Racial-Profiling-RP-Warning-and-Field-Observa/djcn-eje6)
-- Overleaf for report: 
+- Overleaf for report: https://www.overleaf.com/9242377564zvjxkscjvmzj
 - Overleaf for presentation:
