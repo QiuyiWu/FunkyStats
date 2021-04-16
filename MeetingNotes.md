@@ -1,3 +1,12 @@
+## Apr 15, Thursday
+Useful viewpoints we may need from the paper *A large-scale analysis of racial disparities in police stops across the United States*
+(https://5harad.com/papers/100M-stops.pdf) David sent in the group :
+- Daily black drivers were less likely to be stopped after sunset, when a ‘veil of darkness’ masks one’s race, suggesting bias in stop decisions
+- By examining the rate at which stopped drivers were searched and the likelihood that searches turned up contraband, we found evidence that the bar for searching black and Hispanic drivers was lower than that for searching white drivers 
+- Influence of policy 
+
+
+
 ## Apr 12, Monday
 #### Step 1 (Hypothesis Testing)
 Test null hypothesis: Fairness in traffic stops does not exist in Austin. Chi-square test (assumption: Each observation is independent of all the others)
