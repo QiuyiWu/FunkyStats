@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.18)  18 APR 2021 16:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.18)  18 APR 2021 19:59
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -570,30 +570,50 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box55
 \@float@everytoks=\toks35
 \@floatcapt=\box56
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/booktabs\booktabs.sty
+) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\caption3.sty
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen176
+\captionmargin@=\dimen177
+\captionwidth=\dimen178
+\caption@tempdima=\dimen179
+\caption@indent=\dimen180
+\caption@parindent=\dimen181
+\caption@hangindent=\dimen182
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count297
+\c@continuedfloat=\count298
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen176
-\lightrulewidth=\dimen177
-\cmidrulewidth=\dimen178
-\belowrulesep=\dimen179
-\belowbottomsep=\dimen180
-\aboverulesep=\dimen181
-\abovetopsep=\dimen182
-\cmidrulesep=\dimen183
-\cmidrulekern=\dimen184
-\defaultaddspace=\dimen185
-\@cmidla=\count297
-\@cmidlb=\count298
-\@aboverulesep=\dimen186
-\@belowrulesep=\dimen187
-\@thisruleclass=\count299
-\@lastruleclass=\count300
-\@thisrulewidth=\dimen188
+\heavyrulewidth=\dimen183
+\lightrulewidth=\dimen184
+\cmidrulewidth=\dimen185
+\belowrulesep=\dimen186
+\belowbottomsep=\dimen187
+\aboverulesep=\dimen188
+\abovetopsep=\dimen189
+\cmidrulesep=\dimen190
+\cmidrulekern=\dimen191
+\defaultaddspace=\dimen192
+\@cmidla=\count299
+\@cmidlb=\count300
+\@aboverulesep=\dimen193
+\@belowrulesep=\dimen194
+\@thisruleclass=\count301
+\@lastruleclass=\count302
+\@thisrulewidth=\dimen195
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/latex-tools\array.sty
 Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
-\col@sep=\dimen189
+\col@sep=\dimen196
 \ar@mcellbox=\box57
-\extrarowheight=\dimen190
+\extrarowheight=\dimen197
 \NC@list=\toks36
 \extratabsurround=\skip58
 \backup@length=\skip59
@@ -601,13 +621,13 @@ Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
 ) (C:\Program Files\MiKTeX 2.9\tex/latex/multirow\multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip60
-\multirow@cntb=\count301
+\multirow@cntb=\count303
 \multirow@dima=\skip61
-\bigstrutjot=\dimen191
+\bigstrutjot=\dimen198
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/wrapfig\wrapfig.sty
-\wrapoverhang=\dimen192
-\WF@size=\dimen193
-\c@WF@wrappedlines=\count302
+\wrapoverhang=\dimen199
+\WF@size=\dimen256
+\c@WF@wrappedlines=\count304
 \WF@box=\box59
 \WF@everypar=\toks37
 Package: wrapfig 2003/01/31  v 3.6
@@ -626,25 +646,25 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/varwidth\varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box60
-\sift@deathcycles=\count303
-\@vwid@loff=\dimen194
-\@vwid@roff=\dimen195
+\sift@deathcycles=\count305
+\@vwid@loff=\dimen257
+\@vwid@roff=\dimen258
 )
-\c@taburow=\count304
-\tabu@nbcols=\count305
-\tabu@cnt=\count306
-\tabu@Xcol=\count307
-\tabu@alloc=\count308
-\tabu@nested=\count309
-\tabu@target=\dimen196
-\tabu@spreadtarget=\dimen197
-\tabu@naturalX=\dimen198
-\tabucolX=\dimen199
-\tabu@Xsum=\dimen256
-\extrarowdepth=\dimen257
-\abovetabulinesep=\dimen258
-\belowtabulinesep=\dimen259
-\tabustrutrule=\dimen260
+\c@taburow=\count306
+\tabu@nbcols=\count307
+\tabu@cnt=\count308
+\tabu@Xcol=\count309
+\tabu@alloc=\count310
+\tabu@nested=\count311
+\tabu@target=\dimen259
+\tabu@spreadtarget=\dimen260
+\tabu@naturalX=\dimen261
+\tabucolX=\dimen262
+\tabu@Xsum=\dimen263
+\extrarowdepth=\dimen264
+\abovetabulinesep=\dimen265
+\belowtabulinesep=\dimen266
+\tabustrutrule=\dimen267
 \tabu@thebody=\toks39
 \tabu@footnotes=\toks40
 \tabu@box=\box61
@@ -670,56 +690,59 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 \UL@hyphenbox=\box67
 \UL@skip=\skip65
 \UL@hook=\toks41
-\UL@height=\dimen261
-\UL@pe=\count310
-\UL@pixel=\dimen262
+\UL@height=\dimen268
+\UL@pe=\count312
+\UL@pixel=\dimen269
 \ULC@box=\box68
 Package: ulem 2019/11/18
-\ULdepth=\dimen263
+\ULdepth=\dimen270
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/makecell\makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen264
-\c@nlinenum=\count311
+\rotheadsize=\dimen271
+\c@nlinenum=\count313
 \TeXr@lab=\toks42
 )
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/l3backend\l3backend-pdftex
 .def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count312
+\l__color_backend_stack_int=\count314
 \l__pdf_internal_box=\box69
 ) (Report.aux
 
 LaTeX Warning: Label `tab:unnamed-chunk-4' multiply defined.
 
+
+LaTeX Warning: Label `tab:unnamed-chunk-7' multiply defined.
+
 )
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Info: Redefining \microtypecontext on input line 89.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Info: Redefining \microtypecontext on input line 90.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 89.
+LaTeX Info: Redefining \showhyphens on input line 90.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -729,16 +752,16 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/context/base/mkii\supp-pdf.mki
 i
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count313
-\scratchdimen=\dimen265
+\scratchcounter=\count315
+\scratchdimen=\dimen272
 \scratchbox=\box70
-\nofMPsegments=\count314
-\nofMParguments=\count315
+\nofMPsegments=\count316
+\nofMParguments=\count317
 \everyMPshowfont=\toks43
-\MPscratchCnt=\count316
-\MPscratchDim=\dimen266
-\MPnumerator=\count317
-\makeMPintoPDFobject=\count318
+\MPscratchCnt=\count318
+\MPscratchDim=\dimen273
+\MPnumerator=\count319
+\makeMPintoPDFobject=\count320
 \everyMPtoPDFconversion=\toks44
 )
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/epstopdf-pkg\epstopdf-base
@@ -749,7 +772,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (C:\Program Files\MiKTeX 2.9\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 89.
+Package hyperref Info: Link coloring ON on input line 90.
 (C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/refcount\refcount.sty
@@ -759,11 +782,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 tring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count319
+\c@section@level=\count321
 )
-LaTeX Info: Redefining \ref on input line 89.
-LaTeX Info: Redefining \pageref on input line 89.
-LaTeX Info: Redefining \nameref on input line 89.
+LaTeX Info: Redefining \ref on input line 90.
+LaTeX Info: Redefining \pageref on input line 90.
+LaTeX Info: Redefining \nameref on input line 90.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -798,40 +821,44 @@ LaTeX Info: Redefining \nameref on input line 89.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
-1.
+2.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
-1.
+2.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-91.
+92.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-91.
+92.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 91.
+(Font)              <12> on input line 92.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 91.
+(Font)              <8> on input line 92.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 91.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 91.
+(Font)              <6> on input line 92.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 92.
 
 (C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 91.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 92.
 
 (C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -851,99 +878,97 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {C:/Users/david/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<Report_files/figure-latex/unnamed-chunk-5-1.pdf, id=36, 439.6425pt x 253.94875
+<Report_files/figure-latex/unnamed-chunk-5-1.pdf, id=52, 439.6425pt x 253.94875
 pt>
 File: Report_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-5-1.pdf  used 
-on input line 248.
+on input line 240.
 (pdftex.def)             Requested size: 439.65483pt x 253.95586pt.
-[2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
-as been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.251 
-      ]
-<Report_files/figure-latex/unnamed-chunk-7-1.pdf, id=44, 462.72874pt x 251.9412
-5pt>
-File: Report_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-7-1.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-7-1.pdf  used 
-on input line 270.
-(pdftex.def)             Requested size: 462.72762pt x 251.94063pt.
-[3pdfTeX warning (ext4): destination with the same identifier (name{table.2}) h
-as been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.273 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.273 
-       <./Report_files/figure-latex/unnamed-chunk-5-1.pdf>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-06.
+[2]
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 269.
+See the caption package documentation for explanation.
+
+<pic1.png, id=64, 634.87187pt x 392.46625pt>
+File: pic1.png Graphic file (type png)
+<use pic1.png>
+Package pdftex.def Info: pic1.png  used on input line 274.
+(pdftex.def)             Requested size: 289.08995pt x 178.71014pt.
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 275.
+See the caption package documentation for explanation.
+
+[3 <./Report_files/figure-latex/unnamed-chunk-5-1.pdf>] [4 <./pic1.png>]
+
+LaTeX Warning: Citation `?' on page 5 undefined on input line 345.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 374.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 384.
+See the caption package documentation for explanation.
+
+[5]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
+42.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<Report_files/figure-latex/unnamed-chunk-12-1.pdf, id=59, 449.68pt x 277.035pt>
-
-File: Report_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-12-1.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-12-1.pdf  used
- on input line 393.
-(pdftex.def)             Requested size: 449.6789pt x 277.03432pt.
-[4pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
-has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.394 
-       <./Report_files/figure-latex/unnamed-chunk-7-1.pdf>]
-<Report_files/figure-latex/unnamed-chunk-13-1.pdf, id=80, 458.71375pt x 313.17p
-t>
-File: Report_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-1.pdf  used
- on input line 414.
+) [6]
+<Report_files/figure-latex/unnamed-chunk-9-1.pdf, id=119, 462.72874pt x 251.941
+25pt>
+File: Report_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-9-1.pdf  used 
+on input line 567.
+(pdftex.def)             Requested size: 462.72762pt x 251.94063pt.
+[7]
+<Report_files/figure-latex/unnamed-chunk-14-1.pdf, id=127, 459.7175pt x 300.121
+25pt>
+File: Report_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-14-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-14-1.pdf  used
+ on input line 676.
+(pdftex.def)             Requested size: 459.74442pt x 300.13882pt.
+[8 <./Report_files/figure-latex/unnamed-chunk-9-1.pdf>]
+<Report_files/figure-latex/unnamed-chunk-15-1.pdf, id=141, 458.71375pt x 313.17
+pt>
+File: Report_files/figure-latex/unnamed-chunk-15-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-15-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-15-1.pdf  used
+ on input line 697.
 (pdftex.def)             Requested size: 458.72662pt x 313.17877pt.
-[5pdfTeX warning (ext4): destination with the same identifier (name{table.3}) h
-as been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.417 
-       <./Report_files/figure-latex/unnamed-chunk-12-1.pdf>] [6pdfTeX warning (
-ext4): destination with the same identifier (name{table.4}) has been already us
-ed, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.439 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.439 \end{document}
-                     <./Report_files/figure-latex/unnamed-chunk-13-1.pdf>]
+[9 <./Report_files/figure-latex/unnamed-chunk-14-1.pdf>] [10 <./Report_files/fi
+gure-latex/unnamed-chunk-15-1.pdf>]
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     439.
+(LaTeX3)     722.
 
 (Report.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 16124 strings out of 479287
- 255792 string characters out of 2863087
- 649301 words of memory out of 3000000
- 33066 multiletter control sequences out of 15000+600000
- 473989 words of font info for 138 fonts, out of 8000000 for 9000
+ 17421 strings out of 479287
+ 280932 string characters out of 2863087
+ 673645 words of memory out of 3000000
+ 34307 multiletter control sequences out of 15000+600000
+ 477616 words of font info for 147 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 97i,9n,102p,513b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 97i,10n,102p,604b,538s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Fil
 es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program Files/MiKTeX 2.9/fonts/e
-nc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy
+nc/dvips/lm/lm-mathsy.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm
 .enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}<C:/Program 
 Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/lm/lmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
@@ -957,13 +982,13 @@ nts/type1/public/lm/lmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm
 /lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Progr
 am Files/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files/MiKTeX 2
 .9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/lm/lmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb
->
-Output written on Report.pdf (6 pages, 378237 bytes).
+blic/lm/lmsy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Report.pdf (10 pages, 736873 bytes).
 PDF statistics:
- 189 PDF objects out of 1000 (max. 8388607)
- 26 named destinations out of 1000 (max. 500000)
- 38985 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 286 PDF objects out of 1000 (max. 8388607)
+ 55 named destinations out of 1000 (max. 500000)
+ 41102 words of extra memory for PDF output out of 42996 (max. 10000000)
 
 
 ! pdflatex: major issue: User/administrator updates are out-of-sync.
