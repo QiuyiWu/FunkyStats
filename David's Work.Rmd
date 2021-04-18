@@ -201,30 +201,85 @@ shift_draws <- function(draws) {
 ```{r,eval=F}
 SEED <- 101
 wi_prior <- normal(-1.3, 1) #the overall hit rate is .298; log(.298) ~ -1.21
-stanfit1 <- stan_glmer(cbind(nhits, nsearches-nhits) ~ 1 + (1 +subject_race | officer_id_hash), 
-                             data = hit_rates_binary, family = binomial("logit"),
-             prior_intercept = wi_prior, seed = SEED)
+stanfit.w <- stan_glmer(cbind(nhits, nsearches-nhits) ~ (1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="white"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+stanfit.b <- stan_glmer(cbind(nhits, nsearches-nhits) ~ 1 +(1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="black"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+stanfit.h <- stan_glmer(cbind(nhits, nsearches-nhits) ~ 1 +(1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="hispanic"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+
+
+
 ```
 
 ```{r}
-stanfit1 <- readRDS("stanfit1.rds")
-alphas <- shift_draws(as.matrix(stanfit1))
-post1 <- summary_stats(alphas)
-post1 <- post1[-nrow(post1),]
+#stanfit1 <- readRDS("stanfit1.rds")
+alphas.w <- shift_draws(as.matrix(stanfit.w))
+post.w <- summary_stats(alphas.w)
+N <- nrow(post.w)
+post.w <- post.w[-N,]
+
+alphas.b <- shift_draws(as.matrix(stanfit.b))
+post.b <- summary_stats(alphas.b)
+N <- nrow(post.b)
+post.b <- post.b[-N,]
+
+alphas.h <- shift_draws(as.matrix(stanfit.h))
+post.h <- summary_stats(alphas.h)
+N <- nrow(post.h)
+post.h <- post.h[-N,]
+dim(post.w)
+
+post.w <- as.data.frame(post.w) %>% rownames_to_column()
+post.b <- as.data.frame(post.b) %>% rownames_to_column()
+post.h <- as.data.frame(post.h) %>% rownames_to_column()
+
 ```
 
 ```{r}
-officer.medians <- post1[1:(nrow(post1)-5), 2]
-median.mat <- matrix(officer.medians,nrow=length(unique(ids.to.keep)),
-                          ncol=3,byrow = T)
+quantile.mat <- full_join(post.w,post.b,by="rowname",suffix = c(".w",".b")) %>% full_join(.,post.h,by="rowname",suffix=c(".b",".h"))
 mu <- apply(median.mat,1,mean)
 output = rep(0,130)
+median.mat <- quantile.mat %>% select(contains("50%")) %>% as.matrix()
 for (ii in 1:130){
-  temp = mean(median.mat[ii,])
-  ssr = sum((median.mat[ii,] - mu[ii])^2)
+  temp = mean(median.mat[ii,],na.rm=T)
+  ssr = sum((median.mat[ii,] - temp)^2, na.rm = T)
   output[ii] = ssr
 }
+fairness.df <- data.frame(ID = ids.to.keep, score = output)
+fairness.df %>% arrange(desc(score)) %>% head
+
 ```
+
+```{r}
+data.rates <- searches %>% group_by(subject_race,officer_id_hash) %>% 
+  summarise(hit_rate=mean(hit,na.rm=T)) %>% 
+  pivot_wider(id_cols=officer_id_hash,
+              names_from=subject_race, values_from=hit_rate)
+
+search.counts <- searches %>% group_by(officer_id_hash,subject_race) %>% 
+  summarise(count=n()) %>% 
+  pivot_wider(id_cols=officer_id_hash,
+              names_from=subject_race, values_from=count)
+
+comparisons <- cbind(data.rates,quantile.mat %>% select(contains("50%")),
+                     search.counts[,2:4]) 
+names(comparisons) <- c("officer_id_hash","obs.rate.w","obs.rate.b","obs.rate.h",
+                        "post.rate.w","post.rate.b","post.rate.h",
+                        "count.w","count.b","count.h")
+comparisons
+plot(comparisons$obs.rate.w,comparisons$post.rate.w)
+plot(comparisons$obs.rate.b,comparisons$post.rate.b)
+plot(comparisons$obs.rate.h,comparisons$post.rate.h)
+
+```
+
 
 
 ```{r}
