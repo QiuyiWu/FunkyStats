@@ -1,0 +1,346 @@
+---
+title: "Report"
+author: "David Skrill"
+date: "4/18/2021"
+abstract: As Austin Texas is ranked as one of the best cities to live and raise a family in with great expansion in economy, education, outdoor activities, weather etc., the corresponding social issues such as economical segregation and racial profiling. In this study, we are seeking valid methods to evaluate the fairness in traffic stops. We found that
+output:
+  pdf_document: 
+    toc: true
+    toc_depth: 3
+    fig_caption: true
+    latex_engine: pdflatex
+    pandoc_args: "--pdf-engine-opt=--shell-escape"
+    extra_dependencies: ["float"]
+urlcolor: blue
+  
+header-includes: 
+  - \usepackage{svg}
+  - \usepackage{longtable}
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,message = F,warning = F,dev = 'pdf',fig.pos = '!H',cache = T)
+```
+
+```{r}
+#rm(list=ls())
+library(tidyverse)
+library(janitor)
+library(knitr)
+library(kableExtra)
+library(gridExtra)
+```
+
+
+# Introduction 
+Expanding economy, good schools, and many outdoor and indoor activities, Austin, Texas, seems to unite the best qualities to become the best city in the U.S. And the best city she has become. For four years in a row (2016 - 2020), Austin was ranked number one in "the best place to live" list by U.S News.   However, like many other big cities, Austin has her own problems. The most prominent ones are economic segregation and racial profiling. In this project, our team will focus on the problem of traffic-stopping fairness. Notably, we aim to use the data sets provided by the Austin Police Department and data from the Stanford open policing project to help evaluate and expand our understanding of this problem in Austin. Our main report consists of three parts. First, we will do data exploratory analysis to get a big picture of Austin's racial profiling issue. Second, we are going to fit statistical models to estimate the severity of this issue. Third, we propose a measure of fairness based on the difference of posterior hit rate among each race for each police officer.
+
+# Available Data
+We utilized two data sets. The primary data set is from the Stanford open policing project\footnote[1]{Stanford Open Policing Project (OPP): https://openpolicing.stanford.edu/data/} (we call it Stanford data). This data set record stops made by the APD around ten years (2006.01.01 - 2016.06.30). This data set contains the date of the stops, the subject’s race, whether the person was searched or frisked, whether any contrabands were found, etc. However, it does not have the information about the specific time and locations the events occurred.
+ Since we only half year of 2016 data, we decide to focus on 2006-2015 nine years of complete data with total 463,944 stop events recorded. 
+ 
+ 
+ Our secondary data set is Racial Profiling dataset from the city of Austin website (we call it RP data). This data set contains similar information as in our first data set with additional information of the event time and locations as well as the race of the police available. Nevertheless, this data set misses a key element: the race of the drivers. 
+ 
+ We also use US census websites to estimate the population and proportion of race in Austin. Specifically, we use 5-year average census population data for Stanford 2006-2016 racial profiling data, and 2019 census population data for 2019 Austin RP data. In addition, we also refer to the racial profiling reports from the Austin Police Department as an external resource to get the race information. 
+ 
+## Summary Statistics
+
+### Stanford Data
+
+Summary statistics for the Stanford data are as follows. The data covers about a ten year period (2006.01.01 - 2016.06.30). Not shown are unique officer identifiers.
+
+
+```{r, results='asis', fig.cap="Summary statistics for all stops."}
+fancy.summarize <- source("fancy_summarize.R")$value
+
+d <- readRDS("austin.rds")
+d <- d %>% mutate(vehicle_year = ifelse(vehicle_year<1960,1960,vehicle_year)) %>% 
+  mutate(vehicle_year = ifelse(vehicle_year > 2017,NA, vehicle_year)) %>% 
+  mutate(vehicle_make = fct_lump_n(vehicle_make,n = 25)) %>% 
+  mutate(vehicle_model = fct_lump_n(vehicle_model,n = 250))
+
+d.numeric.all <- d %>% select(subject_age,subject_sex,frisk_performed,
+                          search_conducted, search_person,
+                          search_vehicle)
+d.numeric.search <- d %>% filter(search_conducted==T) %>% 
+  select(contraband_found,contraband_drugs,contraband_weapons,frisk_performed)
+
+d.cat <- d %>% select(subject_race,search_basis,reason_for_stop,
+                      vehicle_make,vehicle_model,vehicle_registration_state,
+                      vehicle_year)
+
+summary.stats1 <- d.numeric.all %>% mutate_all(as.numeric) %>% 
+  mutate(subject_sex = subject_sex - 1) %>%  #defaults to 1/2 coding
+  as.data.frame() %>% 
+  fancy.summarize(.,nmis=T,uniq=T,latex = T)
+
+summary.stats.tables <- apply(d.cat,2,tabyl)
+
+```
+
+
+```{r,results='asis', fig.cap="Summary statistics for for stops during which a search was performed."}
+summary.stats2 <- d.numeric.search %>% 
+  mutate_all(as.numeric) %>% 
+  as.data.frame() %>% 
+  fancy.summarize(uniq=T,nmis=T, latex = T)
+```
+
+
+```{r, fig.cap = "Subject race and search basis."}
+rr <- summary.stats.tables[[1]] %>% select(c(1,2,4))
+names(rr) <- c("Race","n","percent")
+kable(rr, caption = "Subject race.") %>% 
+  kable_styling(position = "center")
+
+rr <- summary.stats.tables[[2]] %>% select(c(1,2,4))
+names(rr) <- c("Search basis","n","percent")
+kable(rr,caption ="Search basis.") %>%
+  kable_styling(position = "center")
+
+```
+
+```{r, fig.cap = "Distribution of stops by unique officer ID"}
+officer.counts <- d %>% group_by(officer_id_hash) %>% summarise(`Number of stops per officer` = n()) 
+vioplot::vioplot(x = officer.counts$`Number of stops per officer`,xlab = "Officers", ylab="Number of Stops")
+```
+
+### RP Data
+
+```{r}
+rp <- read.csv()
+```
+
+
+
+# Investigating the Hit Rate
+
+The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk; a lower hit rate for a particular segment of the population can signal that an officer has a lower threshold of evidence when policing that population segment. In the following analysis, we examine the hit rate at the officer level. Because the analysis requires that officers have stopped all races under consideration, we restrict the analysis to only White, Black, and Hispanic subject races and to officers with 18 or more stops, corresponding to roughly the 90th percentile.
+
+
+```{r}
+d2 <- d %>% filter(subject_race %in% c("white","black","hispanic")) %>% 
+  mutate(subject_race = fct_lump_min(subject_race,20000))
+searches.all <- d2 %>% filter(frisk_performed==T) %>% 
+  tabyl(officer_id_hash)
+
+#quantile(searches.all$n,seq(0,1,.1))
+ids.to.keep <- searches.all %>% filter(n>18) %>% pull(officer_id_hash)
+searches <- d2 %>% filter(officer_id_hash %in% ids.to.keep) %>%
+  filter(subject_race %in% c("black","hispanic","white")) %>% 
+  mutate(subject_race = relevel(subject_race,ref="white")) %>% 
+  mutate(subject_race = fct_drop(subject_race)) %>%
+  filter(frisk_performed==T) %>% 
+  mutate(hit = (contraband_found | contraband_drugs | contraband_weapons)) %>% 
+  select(officer_id_hash, contains("subject_"), 
+         reason_for_stop,frisk_performed,search_conducted,hit,contains("contraband"))
+```
+
+```{r, fig.cap= "Hit rates for individual officers."}
+hit_rates <- searches %>% 
+  group_by(officer_id_hash,subject_race) %>% 
+  summarise(
+    hit_rate = mean(contraband_found, na.rm = T)
+  )
+
+
+hit_rates <- hit_rates %>% 
+  filter(subject_race %in% c("black", "white", "hispanic")) %>% 
+  spread(subject_race, hit_rate, fill = 0) %>% 
+  rename(white_hit_rate = white) %>% 
+  gather(minority_race, minority_hit_rate, c(black, hispanic)) %>%
+  arrange(officer_id_hash)
+
+# We'll use this just to make our axes' limits nice and even
+max_hit_rate <- hit_rates %>% ungroup %>% 
+  select(ends_with("hit_rate")) %>% 
+  max()
+hit_rates %>% 
+  ggplot(aes(
+    x = white_hit_rate,
+    y = minority_hit_rate
+  )) +
+  geom_point() +
+  # This sets a diagonal reference line (line of equal hit rates)
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  # These next few lines just make the axes pretty and even
+  scale_x_continuous("White hit rate", 
+    limits = c(0, max_hit_rate + 0.01),
+    labels = scales::percent
+  ) +
+  scale_y_continuous("Minority hit rate", 
+    limits = c(0, max_hit_rate + 0.01),
+    labels = scales::percent
+  ) +
+  # This makes sure that 1% on the x-axis is the same as 1% on the y-axis
+  coord_fixed() +
+  # This allows us to compare black v. white and Hispanic v. white side by
+  # side, in panels
+  facet_grid(. ~ minority_race)
+  # Depending on your version of ggplot2, you may be able to use the syntax 
+  # below (the newer ggplot2 syntax)---which is clearer, in my opinion.
+  # But older versions of ggplot2 will only accept the above syntax
+  # facet_grid(cols = vars(minority_race))
+```
+
+The above plot shows the hit rates for individual officers. An officer with an identical hit rate for white and minority subpopulations would be on the 45-degree line. Visually, it is difficult to determine a systematic trend, although it is clear that particular officers have hit rates that differ substantially by subpopulaton. It should be noted that the hit rate is highly variable with small sample sizes.  
+
+We proceed using a Bayesian hierarchical model. Under this model, we treat individual officers as belonging to a population of players and we seek to model both the hit rates of the officers and the variation of this population. This permits *partial pooling*, by which individual hit rates are biased towards the population average by an amount determined by the estimate of the population. For each officer, we consider three hit rates, one each for white, Black, and Hispanic subpopulations. We accomplish this by fitting separate logistic mixed effects models for each race, each with a weakly informative Normal prior on the log-odds with mean -1.2 and standard deviation 1.
+
+Specifically, let $\theta_{jr}$ be the hit rate for for officer $j$ and race $r$, $y_{jr}$ be the number of hits, and $K_{jr}$ the number of frisks. In the following, because we fit separate models, we assume for example $r=black$ and drop the $r$ subscript. Assuming each officer's searches are independent Bernoulli trials
+
+$$ p(y_j | \theta_j) = \mathrm{Binomial}(y_j | K_j, \theta_j) $$
+We reparametrize the model in terms of the log-odds, $\alpha$:
+$$ \alpha_j = \mathrm{logit}(\theta_j) = \log\frac{\theta_j}{1-\theta_j}$$
+We set a weakly informative prior centered at $\alpha_j = -1.3$, corresponding to $\theta_j \approx 0.2$. The model is therefore
+
+$$ p(y_j | K_j, \alpha) = \mathrm{Binomial}(y_j | K_j, \mathrm{logit^{-1}}(\alpha_j))$$
+
+We proceed using `stan_glmer` and the default prior on the covariance matrix. The result includes a posterior for each officer; we may transform from the log-odds back to hit rate to to obtain a posterior for the the hit rate for each officer. We model each race separately, and so obtain three posteriors for each officer.
+
+
+```{r}
+hit_rates_binary <- searches %>%
+  filter(subject_race %in% c("black","hispanic","white")) %>% 
+  mutate(subject_race = fct_drop(subject_race)) %>% 
+  mutate(subject_race = relevel(subject_race,ref="white")) %>% 
+  group_by(officer_id_hash,subject_race) %>% 
+  summarise(
+    hit_rate = mean(contraband_found, na.rm = T),
+    nsearches = n(),
+    nhits = sum(contraband_found,na.rm=T)
+  )
+```
+
+```{r}
+library(rstanarm)
+summary_stats <- function(posterior) {
+  x <- invlogit(posterior)  # log-odds -> probabilities
+  t(apply(x, 2, quantile, probs = c(0.025, 0.5, 0.975)))
+}
+shift_draws <- function(draws) {
+  sweep(draws[, -1], MARGIN = 1, STATS = draws[, 1], FUN = "+")
+}
+
+
+```
+
+```{r,eval=F}
+SEED <- 101
+wi_prior <- normal(-1.3, 1) #the overall hit rate is .298; log(.298) ~ -1.21
+stanfit.w <- stan_glmer(cbind(nhits, nsearches-nhits) ~ (1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="white"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+stanfit.b <- stan_glmer(cbind(nhits, nsearches-nhits) ~ 1 +(1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="black"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+stanfit.h <- stan_glmer(cbind(nhits, nsearches-nhits) ~ 1 +(1|officer_id_hash), 
+                             data = hit_rates_binary %>% filter(subject_race=="hispanic"),
+                       family = binomial("logit"),
+             prior_intercept = wi_prior, seed = SEED,adapt_delta = .99)
+
+#stanfit1 <- readRDS("stanfit1.rds")
+alphas.w <- shift_draws(as.matrix(stanfit.w))
+post.w <- summary_stats(alphas.w)
+N <- nrow(post.w)
+post.w <- post.w[-N,]
+
+alphas.b <- shift_draws(as.matrix(stanfit.b))
+post.b <- summary_stats(alphas.b)
+N <- nrow(post.b)
+post.b <- post.b[-N,]
+
+alphas.h <- shift_draws(as.matrix(stanfit.h))
+post.h <- summary_stats(alphas.h)
+N <- nrow(post.h)
+post.h <- post.h[-N,]
+dim(post.w)
+
+post.w <- as.data.frame(post.w) %>% rownames_to_column()
+post.b <- as.data.frame(post.b) %>% rownames_to_column()
+post.h <- as.data.frame(post.h) %>% rownames_to_column()
+saveRDS(post.w,"post.w.rds")
+saveRDS(post.b,"post.b.rds")
+saveRDS(post.h,"post.h.rds")
+
+```
+
+```{r}
+post.w <- readRDS("post.w.rds")
+post.b <- readRDS("post.b.rds")
+post.h <- readRDS("post.h.rds")
+
+
+A <- post.w %>% head %>% select(2:4) %>% round(3)
+B <- post.b %>% head%>% select(2:4) %>% round(3)
+C <- post.h %>% head%>% select(2:4) %>% round(3)
+rownames(A) = NULL
+rownames(B) = NULL
+rownames(C) = NULL
+list(ids.to.keep[1:5],A,B,C) %>% kable(caption="Posterior intervals for three races. From left to right: white, Black, Hispanic")
+```
+
+The the following, the effects of partial pooling are evident: the posterior medians aer baised towards the population average. Practically, this means that observed hit rates equal to zero have posterior medians that are small but positive, and perfect (or near-perfect) observed hit rates have somewhat smaller posterior medians.  
+```{r, fig.cap="Partial pooling."}
+data.rates <- searches %>% group_by(subject_race,officer_id_hash) %>% 
+  summarise(hit_rate=mean(hit,na.rm=T)) %>% 
+  pivot_wider(id_cols=officer_id_hash,
+              names_from=subject_race, values_from=hit_rate)
+
+search.counts <- searches %>% group_by(officer_id_hash,subject_race) %>% 
+  summarise(count=n()) %>% 
+  pivot_wider(id_cols=officer_id_hash,
+              names_from=subject_race, values_from=count)
+
+quantile.mat <- full_join(post.w,post.b,by="rowname",suffix = c(".w",".b")) %>% full_join(.,post.h,by="rowname",suffix=c(".b",".h"))
+q.id <- quantile.mat[,1] %>% str_sub(start = 31, end = 40)
+quantile.mat$officer_id_hash = q.id
+
+
+comparisons <- full_join(data.rates,quantile.mat %>% select(officer_id_hash,contains("50%")), by = "officer_id_hash") %>% 
+  full_join(.,search.counts, by = "officer_id_hash")
+names(comparisons) <- c("ID","obs.w","obs.b","obs.h",
+                        "post.w","post.b","post.h",
+                        "count.w","count.b","count.h")
+#comparisons
+par(mfrow=c(1,3))
+plot(comparisons$obs.w,comparisons$post.w, main = "Post. Medians - white ", xlab = "Observed rate", ylab="Posterior Median")
+abline(0,1,lty=2)
+plot(comparisons$obs.b,comparisons$post.b, main = "Post. Medians - Black ", xlab = "Observed rate", ylab="Posterior Median")
+abline(0,1,lty=2)
+plot(comparisons$obs.h,comparisons$post.h, main = "Post. Medians - Hispanic ", xlab = "Observed rate", ylab="Posterior Median")
+abline(0,1,lty=2)
+```
+
+Because part of this project is to "operationalize" fairness, we devised a measure by which the above posteriors can be converted into a rough "fairness score." Because an officer that uses the same evidence threshold when deciding whether to frisk a subject regardless of race should have roughly equal hit rates for all three subpopulations, we reason that such an officer should have posterior medians that are close to each other for the three subpopulations. So, one can calculate a simple sum of squares statistic for each officer. Specifically, letting $m_{jr}$ be the posterior median for officer $j$ and race $r$, the sum of squares statistic $S_j$ is 
+$$ S_j = \sum_{r} (m_{jr} - \bar{m_j})^2$$
+where $\bar{m_j}$ is the average of the three medians. Of course, this measure disregards all other information that could be gleaned from the posterior; an alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
+
+```{r, fig.cap = "Fairness scores for the officers under consideration."}
+#ids.to.keep <- stanfit.h$data$officer_id_hash
+output = rep(0,nrow(comparisons))
+median.mat <- quantile.mat %>% select(contains("50%")) %>% as.matrix()
+for (ii in 1:nrow(comparisons)){
+  current.row <- comparisons[ii,5:7]
+  temp = rowMeans(current.row,na.rm=T)
+  ssr = sum((current.row - temp)^2, na.rm = T)
+  output[ii] = ssr
+}
+fairness.df <- data.frame(ID = comparisons$ID, score = output)
+fairness.df %>% ggplot(aes(x=score)) + geom_histogram(bins=100)
+```
+
+```{r}
+ex5 <- fairness.df %>% arrange(desc(score)) %>% pull(ID)
+ex5 <- ex5[1:5]
+comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(caption="Highest 5 scores. ") 
+```
+
+
