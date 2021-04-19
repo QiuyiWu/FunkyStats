@@ -107,9 +107,10 @@ kable(rr,caption ="Search basis.") %>%
 
 ```{r, fig.cap = "Distribution of stops by unique officer ID"}
 officer.counts <- d %>% group_by(officer_id_hash) %>% summarise(`Number of stops per officer` = n()) 
-vioplot::vioplot(x = officer.counts$`Number of stops per officer`,xlab = "Officers", ylab="Number of Stops")
+boxplot(officer.counts$`Number of stops per officer`)
 ```
 
+We note that the distribution of stops per officer has an extremely long tail.
 
 # Exploratory Analysis
 
@@ -561,7 +562,7 @@ Because part of this project is to "operationalize" fairness, we devised a measu
 $$ S_j = \sum_{r} (m_{jr} - \bar{m_j})^2$$
 where $\bar{m_j}$ is the average of the three medians. Of course, this measure disregards all other information that could be gleaned from the posterior; an alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
 
-```{r, fig.cap = "Fairness scores for the officers under consideration."}
+```{r, fig.cap = "Fairness scores for the officers under consideration.",fig.height=3}
 #ids.to.keep <- stanfit.h$data$officer_id_hash
 output = rep(0,nrow(comparisons))
 median.mat <- quantile.mat %>% select(contains("50%")) %>% as.matrix()
