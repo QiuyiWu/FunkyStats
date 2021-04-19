@@ -111,11 +111,6 @@ vioplot::vioplot(x = officer.counts$`Number of stops per officer`,xlab = "Office
 ```
 
 
-```{r}
-rp <- read.csv("../RacialProfiling/combined_data_Migrated Data.csv") %>% 
-  select(Date,Person.Search.YN,Race,RACE_KNOWN,Search.Found,SEX,Time,ZIP)
-```
-
 ## Exploratory Analysis
 
 We first examine the count of stops by race during 2006-2015 (Table \ref{tab:1}), using the Stanford Data. It is notable that over half of the stops involved were of white subjects, about four times the number of stops of Black people. According to 5-year census data, the white population in Austin (445,269) is almost 7 times than the black population (66,724) --- a classic Simpson's paradox. Examining figure \ref{fig:1}, we can see that at least for Black, Hispanic and white drivers, the annual trends are very different by race. 
