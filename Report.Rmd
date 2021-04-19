@@ -111,7 +111,7 @@ vioplot::vioplot(x = officer.counts$`Number of stops per officer`,xlab = "Office
 ```
 
 
-## Exploratory Analysis
+# Exploratory Analysis
 
 We first examine the count of stops by race during 2006-2015 (Table \ref{tab:1}), using the Stanford Data. It is notable that over half of the stops involved were of white subjects, about four times the number of stops of Black people. According to 5-year census data, the white population in Austin (445,269) is almost 7 times than the black population (66,724) --- a classic Simpson's paradox. Examining figure \ref{fig:1}, we can see that at least for Black, Hispanic and white drivers, the annual trends are very different by race. 
 
@@ -176,7 +176,7 @@ If racial groups have different hit rates, it can be taken as evidence of discri
  According to Grogger and Ridgeway \cite{?}, the "Veil of Darkness" test can help assess the bias in the stop decisions. The hypothesis of this test states that officers who are engaged in racial profiling are less likely to be able to identify a driver's
 race after dark than during daylight. Under this hypothesis, if stops made
 after dark had smaller proportion of black drivers stopped than stops made
-during daylight, it could be evidence of of racial profiling. 
+during daylight, it could be evidence of racial profiling. 
 
 Because neither of our data sets contain both driver races and stop time information, we venture to an indirect way by measuring the racial population in different areas through zip codes by 2019 RP data provided by Austin Police Department. In order to accurately distinguish the daytime and nighttime, we compute the daily subset and dusk time for Austin in 2019. In Table \ref{tab:3} we can see earliest sunset in 2019 was at around 17:32 in early December and it goes fully dark in 26 minutes. The latest sunset time was around 20:38 late June and it was fully dark after 28 minutes. 
 
