@@ -175,7 +175,7 @@ The racial disparity by the police is clear from benchmark test, but it is insuf
 If racial groups have different hit rates, it can be taken as evidence of discriminative policing. From the last column in Table \ref{tab:2}, we can see the hit rate for Black and Asian/Pacific drivers are lower than for white and Hispanic drivers, indicating police may have a lower threshold of evidence when searching Black or Asian/Pacific drivers. 
 
 ### Veil of Darkness Test \& Fisher's Exact Test
- According to Grogger and Ridgeway \cite{?}, the "Veil of Darkness" test can help assess the bias in the stop decisions. The hypothesis of this test states that officers who are engaged in racial profiling are less likely to be able to identify a driver's
+According to Grogger and Ridgeway, the "Veil of Darkness" test can help assess the bias in the stop decisions. The hypothesis of this test states that officers who are engaged in racial profiling are less likely to be able to identify a driver's
 race after dark than during daylight. Under this hypothesis, if stops made
 after dark had smaller proportion of black drivers stopped than stops made
 during daylight, it could be evidence of racial profiling. 
@@ -564,7 +564,7 @@ $$ S_j = \sum_{r} (m_{jr} - \bar{m_j})^2$$
 where $\bar{m_j}$ is the average of the three medians. Of course, this measure disregards all other information that could be gleaned from the posterior; an alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
 
 
-```{r, fig.cap = "Fairness scores for the officers under consideration.",fig.height=2}
+```{r, fig.cap = "Fairness scores for the officers under consideration. Lower scores indicate hit rates are more similar.",fig.height=2}
 #ids.to.keep <- stanfit.h$data$officer_id_hash
 output = rep(0,nrow(comparisons))
 median.mat <- quantile.mat %>% select(contains("50%")) %>% as.matrix()
@@ -585,9 +585,9 @@ comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(
 ```
 
 # Conclusion
-In this study, we evaluate the fairness of traffic stops during the past two decades through three tests, namely benchmark test, outcome test and veil of darkness test. We found that the racial disparity in policing does exist and present in different scales spatially and temporarily. We also explore the causal confounding issues through logistic regression, finding that black and Hispanic people are more likely to be frisked and found with contraband items that are neither drugs or weapons. 
+In this study, we evaluate the fairness of traffic stops during the past two decades through three tests, namely benchmark test, outcome test and veil of darkness test. We found that the racial disparity in policing exists and is present in different scales spatially and temporarily. We also explore the causal confounding issues through logistic regression, finding that black and Hispanic people are more likely to be frisked and found with contraband items that are neither drugs or weapons. 
 
-Through the investigation of the hit rate via Bayesian hierarchical modeling, we devised a measure for "fairness score". 
+Through the investigation of the hit rate via Bayesian hierarchical modeling, we obtained posteriors for the hit rate for each officer in a subset of the data. Using the medians for these posteriors, we devised a "fairness score," a tool we believe could be used to identify officers with racially disparate patterns of traffic stops. 
 
 \begin{center}
 \includegraphics[width=8in]{funkystats.jpg}
