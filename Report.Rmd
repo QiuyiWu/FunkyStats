@@ -284,9 +284,9 @@ We also break down contraband found into three categories: Drugs, Weapons, and O
 <!-- \end{tabular} -->
 <!-- \end{center} -->
 
-<!-- \begin{center} -->
-<!-- \begin{tabular}{l c c c} -->
-<!-- \hline -->
+\begin{center}
+\begin{tabular}{l c c c}
+\hline
 Other Results \\
 Contraband found & Drugs & Weapons & Others \\
 \hline
