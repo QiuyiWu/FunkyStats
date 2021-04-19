@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.18)  18 APR 2021 22:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.4.18)  18 APR 2021 22:45
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -590,123 +590,12 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/caption\ltcaption.sty
 Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
-)) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/booktabs\booktabs.sty
-Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen183
-\lightrulewidth=\dimen184
-\cmidrulewidth=\dimen185
-\belowrulesep=\dimen186
-\belowbottomsep=\dimen187
-\aboverulesep=\dimen188
-\abovetopsep=\dimen189
-\cmidrulesep=\dimen190
-\cmidrulekern=\dimen191
-\defaultaddspace=\dimen192
-\@cmidla=\count299
-\@cmidlb=\count300
-\@aboverulesep=\dimen193
-\@belowrulesep=\dimen194
-\@thisruleclass=\count301
-\@lastruleclass=\count302
-\@thisrulewidth=\dimen195
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/latex-tools\array.sty
-Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
-\col@sep=\dimen196
-\ar@mcellbox=\box57
-\extrarowheight=\dimen197
-\NC@list=\toks36
-\extratabsurround=\skip58
-\backup@length=\skip59
-\ar@cellbox=\box58
-) (C:\Program Files\MiKTeX 2.9\tex/latex/multirow\multirow.sty
-Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip60
-\multirow@cntb=\count303
-\multirow@dima=\skip61
-\bigstrutjot=\dimen198
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/wrapfig\wrapfig.sty
-\wrapoverhang=\dimen199
-\WF@size=\dimen256
-\c@WF@wrappedlines=\count304
-\WF@box=\box59
-\WF@everypar=\toks37
-Package: wrapfig 2003/01/31  v 3.6
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/colortbl\colortbl.sty
-Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
-\everycr=\toks38
-\minrowclearance=\skip62
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/pdflscape\pdflscape.sty
-Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
-(C:\Program Files\MiKTeX 2.9\tex/latex/graphics\lscape.sty
-Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
-)
-Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/tabu\tabu.sty
-Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/varwidth\varwidth.sty
-Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box60
-\sift@deathcycles=\count305
-\@vwid@loff=\dimen257
-\@vwid@roff=\dimen258
-)
-\c@taburow=\count306
-\tabu@nbcols=\count307
-\tabu@cnt=\count308
-\tabu@Xcol=\count309
-\tabu@alloc=\count310
-\tabu@nested=\count311
-\tabu@target=\dimen259
-\tabu@spreadtarget=\dimen260
-\tabu@naturalX=\dimen261
-\tabucolX=\dimen262
-\tabu@Xsum=\dimen263
-\extrarowdepth=\dimen264
-\abovetabulinesep=\dimen265
-\belowtabulinesep=\dimen266
-\tabustrutrule=\dimen267
-\tabu@thebody=\toks39
-\tabu@footnotes=\toks40
-\tabu@box=\box61
-\tabu@arstrutbox=\box62
-\tabu@hleads=\box63
-\tabu@vleads=\box64
-\tabu@cellskip=\skip63
-)
-(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/threeparttable\threepartta
-ble.sty
-Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box65
-)
-(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/threeparttablex\threepartt
-ablex.sty
-Package: threeparttablex 2013/07/23 v0.3 by daleif
-(C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/environ\environ.sty
-Package: environ 2014/05/04 v0.3 A new way to define environments
-)
-\TPTL@width=\skip64
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/ulem\ulem.sty
-\UL@box=\box66
-\UL@hyphenbox=\box67
-\UL@skip=\skip65
-\UL@hook=\toks41
-\UL@height=\dimen268
-\UL@pe=\count312
-\UL@pixel=\dimen269
-\ULC@box=\box68
-Package: ulem 2019/11/18
-\ULdepth=\dimen270
-) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/makecell\makecell.sty
-Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen271
-\c@nlinenum=\count313
-\TeXr@lab=\toks42
-)
+))
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/l3backend\l3backend-pdftex
 .def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count314
-\l__pdf_internal_box=\box69
+\l__color_backend_stack_int=\count299
+\l__pdf_internal_box=\box57
 ) (Report.aux
 
 LaTeX Warning: Label `tab:unnamed-chunk-4' multiply defined.
@@ -717,32 +606,32 @@ LaTeX Warning: Label `tab:unnamed-chunk-6' multiply defined.
 )
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 90.
-LaTeX Font Info:    ... okay on input line 90.
-LaTeX Info: Redefining \microtypecontext on input line 90.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Info: Redefining \microtypecontext on input line 78.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 90.
+LaTeX Info: Redefining \showhyphens on input line 78.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -752,17 +641,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/context/base/mkii\supp-pdf.mki
 i
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count315
-\scratchdimen=\dimen272
-\scratchbox=\box70
-\nofMPsegments=\count316
-\nofMParguments=\count317
-\everyMPshowfont=\toks43
-\MPscratchCnt=\count318
-\MPscratchDim=\dimen273
-\MPnumerator=\count319
-\makeMPintoPDFobject=\count320
-\everyMPtoPDFconversion=\toks44
+\scratchcounter=\count300
+\scratchdimen=\dimen183
+\scratchbox=\box58
+\nofMPsegments=\count301
+\nofMParguments=\count302
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen184
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
+\everyMPtoPDFconversion=\toks37
 )
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/epstopdf-pkg\epstopdf-base
 .sty
@@ -772,7 +661,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (C:\Program Files\MiKTeX 2.9\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 90.
+Package hyperref Info: Link coloring ON on input line 78.
 (C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/refcount\refcount.sty
@@ -782,11 +671,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 tring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count321
+\c@section@level=\count306
 )
-LaTeX Info: Redefining \ref on input line 90.
-LaTeX Info: Redefining \pageref on input line 90.
-LaTeX Info: Redefining \nameref on input line 90.
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+LaTeX Info: Redefining \nameref on input line 78.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -822,43 +711,41 @@ LaTeX Info: Redefining \nameref on input line 90.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: threeparttable package is loaded.
-Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
-2.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 8
+0.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
-2.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 8
+0.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-92.
+80.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-92.
+80.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 92.
+(Font)              <12> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 92.
+(Font)              <8> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 92.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 92.
+(Font)              <6> on input line 80.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 80.
 
 (C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\david\AppData\Roaming\MiKTeX\2.9\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 92.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 80.
 
 (C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -878,77 +765,78 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {C:/Users/david/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<Report_files/figure-latex/unnamed-chunk-5-1.pdf, id=52, 407.5225pt x 198.7425p
+<Report_files/figure-latex/unnamed-chunk-5-1.pdf, id=50, 407.5225pt x 198.7425p
 t>
 File: Report_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-5-1.pdf  used 
-on input line 240.
+on input line 228.
 (pdftex.def)             Requested size: 407.53394pt x 198.74806pt.
 [2]
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 272.
+(caption)                particular \caption on input line 260.
 See the caption package documentation for explanation.
 
-<pic1.png, id=64, 634.87187pt x 392.46625pt>
+[3 <./Report_files/figure-latex/unnamed-chunk-5-1.pdf>]
+<pic1.png, id=82, 634.87187pt x 392.46625pt>
 File: pic1.png Graphic file (type png)
 <use pic1.png>
-Package pdftex.def Info: pic1.png  used on input line 277.
+Package pdftex.def Info: pic1.png  used on input line 265.
 (pdftex.def)             Requested size: 289.08995pt x 178.71014pt.
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 278.
+(caption)                particular \caption on input line 266.
 See the caption package documentation for explanation.
 
-[3 <./Report_files/figure-latex/unnamed-chunk-5-1.pdf>] [4 <./pic1.png>]
+[4 <./pic1.png>]
 
-LaTeX Warning: Citation `?' on page 5 undefined on input line 348.
+LaTeX Warning: Citation `?' on page 5 undefined on input line 336.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 377.
+(caption)                particular \caption on input line 365.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 387.
+(caption)                particular \caption on input line 375.
 See the caption package documentation for explanation.
 
 [5]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-45.
+33.
 (C:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [6]
-<Report_files/figure-latex/unnamed-chunk-8-1.pdf, id=119, 462.72874pt x 251.941
+<Report_files/figure-latex/unnamed-chunk-8-1.pdf, id=117, 462.72874pt x 251.941
 25pt>
 File: Report_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-8-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-8-1.pdf  used 
-on input line 570.
+on input line 558.
 (pdftex.def)             Requested size: 462.72762pt x 251.94063pt.
 [7]
-<Report_files/figure-latex/unnamed-chunk-13-1.pdf, id=127, 458.71375pt x 313.17
-pt>
+<Report_files/figure-latex/unnamed-chunk-13-1.pdf, id=129, 459.7175pt x 300.121
+25pt>
 File: Report_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-13-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-1.pdf  used
- on input line 679.
-(pdftex.def)             Requested size: 458.72662pt x 313.17877pt.
-[8 <./Report_files/figure-latex/unnamed-chunk-8-1.pdf>] [9 <./Report_files/figu
-re-latex/unnamed-chunk-13-1.pdf>]
-<Report_files/figure-latex/unnamed-chunk-14-1.pdf, id=154, 458.71375pt x 204.76
+ on input line 667.
+(pdftex.def)             Requested size: 459.74442pt x 300.13882pt.
+[8 <./Report_files/figure-latex/unnamed-chunk-8-1.pdf>]
+<Report_files/figure-latex/unnamed-chunk-14-1.pdf, id=143, 458.71375pt x 204.76
 5pt>
 File: Report_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-14-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-14-1.pdf  used
- on input line 700.
+ on input line 688.
 (pdftex.def)             Requested size: 458.73363pt x 204.77385pt.
-[10 <./Report_files/figure-latex/unnamed-chunk-14-1.pdf>]
+[9 <./Report_files/figure-latex/unnamed-chunk-13-1.pdf>] [10 <./Report_files/fi
+gure-latex/unnamed-chunk-14-1.pdf>]
 
 LaTeX3 Info: Redefining command \BeforeClosingMainAux with sig. 'm' on line
-(LaTeX3)     725.
+(LaTeX3)     724.
 
 (Report.aux)
 
@@ -959,13 +847,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17422 strings out of 479287
- 280952 string characters out of 2863087
- 674706 words of memory out of 3000000
- 34308 multiletter control sequences out of 15000+600000
- 477616 words of font info for 147 fonts, out of 8000000 for 9000
+ 16080 strings out of 479287
+ 261513 string characters out of 2863087
+ 645893 words of memory out of 3000000
+ 33015 multiletter control sequences out of 15000+600000
+ 477551 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 97i,10n,102p,604b,538s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 97i,9n,102p,604b,529s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program Fil
 es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program Files/MiKTeX 2.9/fonts/e
 nc/dvips/lm/lm-mathsy.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm
@@ -984,11 +872,11 @@ am Files/MiKTeX 2.9/fonts/type1/public/lm/lmri10.pfb><C:/Program Files/MiKTeX 2
 .9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/lm/lmsy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb>
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Report.pdf (10 pages, 724794 bytes).
+Output written on Report.pdf (10 pages, 750095 bytes).
 PDF statistics:
- 285 PDF objects out of 1000 (max. 8388607)
- 55 named destinations out of 1000 (max. 500000)
- 41102 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 296 PDF objects out of 1000 (max. 8388607)
+ 59 named destinations out of 1000 (max. 500000)
+ 41110 words of extra memory for PDF output out of 42996 (max. 10000000)
 
 
 ! pdflatex: major issue: User/administrator updates are out-of-sync.

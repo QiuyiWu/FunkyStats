@@ -2,7 +2,7 @@
 title: "Assessing Fair Policing in Austin, TX"
 author: "Team FunkyStats"
 date: "4/18/2021"
-abstract: This report demonstrates disparities by race in traffic stops by the Austin Police Department. After exploratory analysis, we assess various models and statistics derived from the hit rate and using the Veil of Darkness. We conclude with a Bayesian hierarchical model that produces officer-level posteriors foe the hit rate.
+abstract: This report demonstrates disparities by race in traffic stops by the Austin Police Department. After exploratory analysis, we assess various models and statistics derived from the hit rate and using the Veil of Darkness. We conclude with a Bayesian hierarchical model that produces officer-level posteriors for the hit rate.
 output:
   pdf_document: 
     toc: true
@@ -12,6 +12,7 @@ output:
     pandoc_args: "--pdf-engine-opt=--shell-escape"
     extra_dependencies: ["float"]
 urlcolor: blue
+
   
 header-includes: 
   - \usepackage{svg}
@@ -19,7 +20,7 @@ header-includes:
   - \usepackage{float}
   - \floatplacement{figure}{H}
   - \usepackage{caption}
-
+bibliography: references.bib
 
 ---
 
@@ -582,4 +583,8 @@ ex5 <- ex5[1:5]
 comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(caption="Highest 5 scores. ") 
 ```
 
+# References
 
+---
+nocite: '@*'
+---
