@@ -225,32 +225,34 @@ To overcome this problem, we propose to look at the hit rate with more details i
 Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable and `race`, `age`, and `sex`. 
 
 $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
-\begin{center}
-\begin{tabular}{l c}
-\hline
- Table 1:  The result of logistic model for frisk rate vs. race, age, and sex \\
-\hline
-(Intercept)           & $-2.98^{***}(0.1)$ \\
 
-Race: Black    & $1.50^{***}(0.1)$  \\
-                    
-Race: Hispanic & $1.31^{***} (0.1)$  \\
- 
-Race: White    & $0.72^{***}(0.1)$  \\
-                   
-Race: Other    & $0.62^{***}(0.18)$  \\
-     
-Race: Unknown  & $0.65^{***}(0.18)$  \\
-                 
-Age          & $-0.05^{***}(0.0008)$ \\
-                   
-Sex (female)    & $-1.64^{***}(0.04)$ \\
-                   
+Results can be found below.
+<!-- \begin{center} -->
+<!-- \begin{tabular}{l c} -->
+<!-- \hline -->
+<!--  Table 1:  The result of logistic model for frisk rate vs. race, age, and sex \\ -->
+<!-- \hline -->
+<!-- (Intercept)           & $-2.98^{***}(0.1)$ \\ -->
 
-\hline
-\multicolumn{2}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}}
-\end{tabular}
-\end{center}
+<!-- Race: Black    & $1.50^{***}(0.1)$  \\ -->
+
+<!-- Race: Hispanic & $1.31^{***} (0.1)$  \\ -->
+
+<!-- Race: White    & $0.72^{***}(0.1)$  \\ -->
+
+<!-- Race: Other    & $0.62^{***}(0.18)$  \\ -->
+
+<!-- Race: Unknown  & $0.65^{***}(0.18)$  \\ -->
+
+<!-- Age          & $-0.05^{***}(0.0008)$ \\ -->
+
+<!-- Sex (female)    & $-1.64^{***}(0.04)$ \\ -->
+
+
+<!-- \hline -->
+<!-- \multicolumn{2}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}} -->
+<!-- \end{tabular} -->
+<!-- \end{center} -->
 
 ## Logistic Regression for Contraband found
 
@@ -285,27 +287,27 @@ We also break down contraband found into three categories: Drugs, Weapons, and O
 <!-- \begin{center} -->
 <!-- \begin{tabular}{l c c c} -->
 <!-- \hline -->
-<!-- Table 3 \\ -->
-<!-- Contraband found & Drugs & Weapons & Others \\ -->
-<!-- \hline -->
-<!-- (Intercept)           & $-5.24^{***}(1.00)$ & $-3.61^{***}(0.45)$ & $-2.38^{***} (0.26)$ \\ -->
+Other Results \\
+Contraband found & Drugs & Weapons & Others \\
+\hline
+(Intercept)           & $-5.24^{***}(1.00)$ & $-3.61^{***}(0.45)$ & $-2.38^{***} (0.26)$ \\
 
-<!-- Black    & $1.10 (1.01)$        & $0.32 (0.46)$        & $0.99^{***}(0.26)$  \\ -->
+Black    & $1.10 (1.01)$        & $0.32 (0.46)$        & $0.99^{***}(0.26)$  \\
 
-<!-- Hispanic & $1.21 (1.01)$        & $0.36 (0.46)$        & $1.04^{***}(0.26)$  \\ -->
+Hispanic & $1.21 (1.01)$        & $0.36 (0.46)$        & $1.04^{***}(0.26)$  \\
 
-<!-- White    & $0.73 (1.01)$        & $0.98^{*}(0.46)$    & $0.72^{**}(0.26)$   \\ -->
+White    & $0.73 (1.01)$        & $0.98^{*}(0.46)$    & $0.72^{**}(0.26)$   \\
 
-<!-- Other    & $0.97 (1.42)$        & $0.47(0.74)$        & $0.87^{*}(0.40)$    \\ -->
+Other    & $0.97 (1.42)$        & $0.47(0.74)$        & $0.87^{*}(0.40)$    \\
 
-<!-- Unknown  & $-11.33 (280.85)$      & $0.04(0.85)$        & $-0.23 (0.53)$       \\ -->
+Unknown  & $-11.33 (280.85)$      & $0.04(0.85)$        & $-0.23 (0.53)$       \\
 
-<!-- \hline -->
-<!-- \multicolumn{4}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}} -->
-<!-- \end{tabular} -->
+\hline
+\multicolumn{4}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}}
+\end{tabular}
 
-<!-- \label{table:coefficients} -->
-<!-- \end{center} -->
+\label{table:coefficients}
+\end{center}
 
 
 
