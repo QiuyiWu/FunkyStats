@@ -222,8 +222,8 @@ In our analysis of observational data, we have to deal with unmeasured confounde
 To overcome this problem, we propose to look at the hit rate with more details in Section 3. We argue that given a person is being searched, the probability of finding contraband items should be equal among all races, regardless of the neighborhood that the search conducted. We want to emphasize that using hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem.
 
 # Modeling
-
-## Logistic Regression for Frisk Rate
+## Logistic Regression
+### Logistic Regression for Frisk Rate
 Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable and `race`, `age`, and `sex`. 
 
 $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
@@ -256,7 +256,7 @@ Results can be found below.
 <!-- \end{tabular} -->
 <!-- \end{center} -->
 
-## Logistic Regression for Contraband found
+### Logistic Regression for Contraband found
 
 We want to investigate how likely contraband items are found when searching is performed. This is equivalent to calculating hit rate defined in section 2.2.2. We argue that if racial bias does not exist, the hit rate should be equal for all races. In other words, we expect to find that `race` is not an essential factor in the model:
 
@@ -357,8 +357,8 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 
 From table 7, black and Hispanic people are more likely to be frisked than white people. The estimated odd of being frisked for the black is 2.22 times the estimated odd for the white. This odd ratio for Hispanic people is 1.8. Asian people is the least likely to be frisked. From table 8 and table 9, contraband items is more likely to be found for Hispanic and black people. White people is more likely to be found with weapons and black and Hispanic people are more likely to be found with contraband items that are neither drugs or weapons.
 
-
-# Investigating the Hit Rate
+## Bayesian Modeling
+### Investigating the Hit Rate
 
 The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk; a lower hit rate for a particular segment of the population can signal that an officer has a lower threshold of evidence when policing that population segment. In the following analysis, we examine the hit rate at the officer level. Because the analysis requires that officers have stopped all races under consideration, we restrict the analysis to only White, Black, and Hispanic subject races and to officers with 18 or more stops, corresponding to roughly the 90th percentile.
 
@@ -381,7 +381,7 @@ searches <- d2 %>% filter(officer_id_hash %in% ids.to.keep) %>%
          reason_for_stop,frisk_performed,search_conducted,hit,contains("contraband"))
 ```
 
-```{r, fig.cap= "Hit rates for individual officers."}
+```{r, fig.cap= "Hit rates for individual officers.",fig.height=2.5}
 hit_rates <- searches %>% 
   group_by(officer_id_hash,subject_race) %>% 
   summarise(
@@ -527,8 +527,8 @@ rownames(C) = NULL
 list(A,B,C) %>% kable(caption="Posterior intervals for three races. From left to right: white, Black, Hispanic")
 ```
 
-The the following, the effects of partial pooling are evident: the posterior medians aer baised towards the population average. Practically, this means that observed hit rates equal to zero have posterior medians that are small but positive, and perfect (or near-perfect) observed hit rates have somewhat smaller posterior medians.  
-```{r, fig.cap="Partial pooling."}
+The the following, the effects of partial pooling are evident: the posterior medians are baised towards the population average. Practically, this means that observed hit rates equal to zero have posterior medians that are small but positive, and perfect (or near-perfect) observed hit rates have somewhat smaller posterior medians.  
+```{r, fig.cap="Partial pooling.",fig.height=3}
 data.rates <- searches %>% group_by(subject_race,officer_id_hash) %>% 
   summarise(hit_rate=mean(hit,na.rm=T)) %>% 
   pivot_wider(id_cols=officer_id_hash,
@@ -563,7 +563,8 @@ Because part of this project is to "operationalize" fairness, we devised a measu
 $$ S_j = \sum_{r} (m_{jr} - \bar{m_j})^2$$
 where $\bar{m_j}$ is the average of the three medians. Of course, this measure disregards all other information that could be gleaned from the posterior; an alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
 
-```{r, fig.cap = "Fairness scores for the officers under consideration.",fig.height=3}
+
+```{r, fig.cap = "Fairness scores for the officers under consideration.",fig.height=2}
 #ids.to.keep <- stanfit.h$data$officer_id_hash
 output = rep(0,nrow(comparisons))
 median.mat <- quantile.mat %>% select(contains("50%")) %>% as.matrix()
@@ -582,6 +583,20 @@ ex5 <- fairness.df %>% arrange(desc(score)) %>% pull(ID)
 ex5 <- ex5[1:5]
 comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(caption="Highest 5 scores. ") 
 ```
+
+# Conclusion
+In this study, we evaluate the fairness of traffic stops during the past two decades through three tests, namely benchmark test, outcome test and veil of darkness test. We found that the racial disparity in policing does exist and present in different scales spatially and temporarily. We also explore the causal confounding issues through logistic regression, finding that black and Hispanic people are more likely to be frisked and found with contraband items that are neither drugs or weapons. 
+
+Through the investigation of the hit rate via Bayesian hierarchical modeling, we devised a measure for "fairness score". 
+
+\begin{center}
+\includegraphics[width=8in]{funkystats.jpg}
+\includegraphics[width=4in]{upstat_logo}
+\captionof{figure}{FunkyStats: David Skrill, Qiuyi Wu, Cuong Pham (from left to right)}
+\label{fig:logo}
+\end{center}
+
+
 
 # References
 
