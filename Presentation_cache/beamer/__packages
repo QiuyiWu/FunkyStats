@@ -13,6 +13,5 @@ knitr
 kableExtra
 gridExtra
 xtable
-broom
 Rcpp
 rstanarm

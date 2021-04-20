@@ -13,6 +13,7 @@ header-includes:
   - \usepackage{float}
   - \floatplacement{figure}{H}
   - \usepackage{caption}
+  - \usepackage{booktabs}
 bibliography: references.bib
 
 ---
@@ -20,6 +21,7 @@ bibliography: references.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F,message = F,warning = F,dev = 'pdf',fig.pos = '!H',cache = T)
 ```
+
 
 ```{r}
 #rm(list=ls())
@@ -142,7 +144,7 @@ boxplot(officer.counts$`Number of stops per officer`)
 
 
 
-
+---
 # Exploratory Analysis
 
 Examine the count of stops by race during 2006-2015:
@@ -163,7 +165,6 @@ unknown	&2622&	0.007\\
 white	&211588&	0.593\\
 \hline
 \end{tabular}
-\label{tab:1}
 \end{center}
 
 
@@ -338,9 +339,9 @@ Logistic regression model for race vs. each category in contraband
 \end{center}
 
 
-<!--
 
-```{r, eval=T}
+
+```{r, eval=F,echo=F}
 austin.dat = d
 
 library(broom)
@@ -381,7 +382,7 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 #mod.7 = glm(as.factor(contraband_others) ~ subject_race, data = austin.dat2[austin.dat2$search_conducted ==T,], family = binomial())
 #summary(mod.7)
 ```
--->
+
 
 # Logistic Regression
 
@@ -396,11 +397,14 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 
 
 # Bayesian Modeling
-### Investigating the Hit Rate
 
-The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk; a lower hit rate for a particular segment of the population can signal that an officer has a lower threshold of evidence when policing that population segment. In the following analysis, we examine the hit rate at the officer level. Because the analysis requires that officers have stopped all races under consideration, we restrict the analysis to only White, Black, and Hispanic subject races and to officers with 18 or more stops, corresponding to roughly the 90th percentile.
+- The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. 
+- The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk
+  - a lower hit rate for a particular subpopulation $\implies$ a lower threshold of evidence when policing that subpopulation?
+- Restrictions:
+  - Consider only white, Black, and Hispanic subpopulations.
+  - Consider only officers with 18 or more stops (roughly the 90th percentile and above).
 
----
 
 ```{r}
 d2 <- d %>% filter(subject_race %in% c("white","black","hispanic")) %>% 
@@ -419,6 +423,8 @@ searches <- d2 %>% filter(officer_id_hash %in% ids.to.keep) %>%
   select(officer_id_hash, contains("subject_"), 
          reason_for_stop,frisk_performed,search_conducted,hit,contains("contraband"))
 ```
+
+# Visualizing individual officer hit rates
 
 ```{r, fig.cap= "Hit rates for individual officers.",fig.height=2.5}
 hit_rates <- searches %>% 
@@ -467,26 +473,44 @@ hit_rates %>%
   # facet_grid(cols = vars(minority_race))
 ```
 
-The above plot shows the hit rates for individual officers. An officer with an identical hit rate for white and minority subpopulations would be on the 45-degree line. Visually, it is difficult to determine a systematic trend, although it is clear that particular officers have hit rates that differ substantially by subpopulaton. It should be noted that the hit rate is highly variable with small sample sizes.  
+---
+
+- We are interested in the hit rates for each subpopulation (white, Black, Hispanic) for each officer.
+- Can think of individual officers as belonging to a population of officers; we want to model both the hit rates of the individual officers and the variation of this population. 
+- Because we are interested in hit rates for three different subpopulations, we fit three separate hierarchical models using different subsets of the data. 
+  - For instance, we model the hit rate for Black subjects by directly subsetting the data to include only stops of Black subjects. 
 
 ---
 
-We proceed using a Bayesian hierarchical model. Under this model, we treat individual officers as belonging to a population of players and we seek to model both the hit rates of the officers and the variation of this population. This permits *partial pooling*, by which individual hit rates are biased towards the population average by an amount determined by the estimate of the population. For each officer, we consider three hit rates, one each for white, Black, and Hispanic subpopulations. We accomplish this by fitting separate logistic mixed effects models for each race, each with a weakly informative Normal prior on the log-odds with mean -1.2 and standard deviation 1.
+- Hierarchical models allow for *partial pooling*, by which individual hit rates are biased towards the population average by an amount determined by the estimates of the population parameters and the data available for each officer.
+- Why is partial pooling desirable in this case?
+  - Observed hit rates at the boundaries will have posteriors containing more reasonable values.
+    - No pooling will almost certainly overestimate for officers with perfect or near-perfect hit rates. Likewise, it underestimates for officers with zero or near-zero hit rates.
+  - Complete pooling (equal hit rates for all officers) is unrealistic, as individual officers may have different overall thresholds of evidence and may be more or less experienced.
+  - We have a different number of stops for each officer
+
+---
 
 Specifically, let $\theta_{jr}$ be the hit rate for for officer $j$ and race $r$, $y_{jr}$ be the number of hits, and $K_{jr}$ the number of frisks. In the following, because we fit separate models, we assume for example $r=black$ and drop the $r$ subscript. Assuming each officer's searches are independent Bernoulli trials
 
 $$ p(y_j | \theta_j) = \mathrm{Binomial}(y_j | K_j, \theta_j) $$
----
 
 We reparametrize the model in terms of the log-odds, $\alpha$:
 $$ \alpha_j = \mathrm{logit}(\theta_j) = \log\frac{\theta_j}{1-\theta_j}$$
+
+---
+
 We set a weakly informative prior centered at $\alpha_j = -1.3$, corresponding to $\theta_j \approx 0.2$. The model is therefore
 
 $$ p(y_j | K_j, \alpha) = \mathrm{Binomial}(y_j | K_j, \mathrm{logit^{-1}}(\alpha_j))$$
+
+
+We proceed using `stan_glmer` and the default prior on the covariance matrix. 
+
+- The result includes a posterior for each officer; we may transform from the log-odds back to hit rate to to obtain a posterior for the the hit rate for each officer. 
+- We model each race separately, and so obtain three posteriors for each officer.
+
 ---
-
-We proceed using `stan_glmer` and the default prior on the covariance matrix. The result includes a posterior for each officer; we may transform from the log-odds back to hit rate to to obtain a posterior for the the hit rate for each officer. We model each race separately, and so obtain three posteriors for each officer. Table 9 shows the posteriors for the first several officers (rows) for each of the three races (columns)
-
 
 ```{r}
 hit_rates_binary <- searches %>%
@@ -563,18 +587,20 @@ post.h <- readRDS("post.h.rds")
 
 
 A <- post.w %>% head %>% select(2:4) %>% round(3)
-B <- post.b %>% head%>% select(2:4) %>% round(3)
-C <- post.h %>% head%>% select(2:4) %>% round(3)
+B <- post.b %>% head %>% select(2:4) %>% round(3)
+C <- post.h %>% head %>% select(2:4) %>% round(3)
 rownames(A) = NULL
 rownames(B) = NULL
 rownames(C) = NULL
-list(A,B,C) %>% kable(caption="Posterior intervals for three races. From left to right: white, Black, Hispanic")
+ids <- data.frame(ID = substr(post.w$rowname,31,40)) %>% head
+ttt <- cbind(ids,A,B,C)
+names(ttt) <- c("ID","W 2.5%","W 50%", "W 97.5%","B 2.5%","B 50%", "B 97.5%","H 2.5%","H 50%", "H 97.5%")
+ttt %>% kable(caption="Posterior intervals for several officers for three races. From left to right: white, Black, Hispanic", booktabs=T) %>% 
+  kable_styling(latex_options = c("scale_down"))
 ```
 
 ---
 
-
-The the following, the effects of partial pooling are evident: the posterior medians are baised towards the population average. Practically, this means that observed hit rates equal to zero have posterior medians that are small but positive, and perfect (or near-perfect) observed hit rates have somewhat smaller posterior medians.  
 ```{r, fig.cap="Partial pooling.",fig.height=3}
 data.rates <- searches %>% group_by(subject_race,officer_id_hash) %>% 
   summarise(hit_rate=mean(hit,na.rm=T)) %>% 
@@ -606,11 +632,19 @@ plot(comparisons$obs.h,comparisons$post.h, main = "Post. Medians - Hispanic ", x
 abline(0,1,lty=2)
 ```
 
+# Operationalizing Fairness
+
+- Because part of this project is to "operationalize" fairness, we devised a measure by which the above posteriors can be converted into a rough "fairness score." 
+- Supposing that an officer uses the same evidence threshold when deciding whether to frisk a subject regardless of the race of the subject, we would expect that officer to have roughly equal hit rates for all three subpopulations.
+- We reason that such an officer should have posterior medians that are close to each other for the three subpopulations. 
+
 ---
 
-Because part of this project is to "operationalize" fairness, we devised a measure by which the above posteriors can be converted into a rough "fairness score." Because an officer that uses the same evidence threshold when deciding whether to frisk a subject regardless of race should have roughly equal hit rates for all three subpopulations, we reason that such an officer should have posterior medians that are close to each other for the three subpopulations. So, one can calculate a simple sum of squares statistic for each officer. Specifically, letting $m_{jr}$ be the posterior median for officer $j$ and race $r$, the sum of squares statistic $S_j$ is 
+- So, one can calculate a simple sum of squares statistic for each officer. Specifically, letting $m_{jr}$ be the posterior median for officer $j$ and race $r$, the sum of squares statistic $S_j$ is 
 $$ S_j = \sum_{r} (m_{jr} - \bar{m_j})^2$$
-where $\bar{m_j}$ is the average of the three medians. Of course, this measure disregards all other information that could be gleaned from the posterior; an alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
+where $\bar{m_j}$ is the average of the three medians. 
+- Of course, this measure disregards all other information that could be gleaned from the posterior!
+  - An alternative might calculate the overlap between the posterior densities. However, we think this measure is relatively easy to understand and implement.
 
 ---
 
@@ -630,10 +664,13 @@ fairness.df %>% ggplot(aes(x=score)) + geom_histogram(bins=100)
 
 ---
 
-```{r}
+```{r,ref.label="Highest 5 scores."}
 ex5 <- fairness.df %>% arrange(desc(score)) %>% pull(ID)
 ex5 <- ex5[1:5]
-comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(caption="Highest 5 scores. ") 
+comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% 
+  kable(caption="Highest 5 scores.", booktabs=T) %>% 
+  kable_styling(latex_options = c("scale_down"))
+
 ```
 
 # Conclusion
@@ -657,7 +694,6 @@ comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(
 \label{fig:logo}\\
 FunkyStats: David Skrill, Qiuyi Wu, Cuong Pham (from left to right)
 \end{center}
-
 
 
 # References
