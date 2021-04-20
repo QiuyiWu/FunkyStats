@@ -3,9 +3,9 @@ title: "Assessing Fair Policing in Austin, TX"
 author: "Team FunkyStats"
 date: "4/18/2021"
 abstract: This report demonstrates disparities by race in traffic stops by the Austin Police Department. After exploratory analysis, we assess various models and statistics derived from the hit rate and using the Veil of Darkness. We conclude with a Bayesian hierarchical model that produces officer-level posteriors for the hit rate.
-output: beamer_presentation
-
-
+output: 
+  beamer_presentation:
+    theme: "AnnArbor"
   
 header-includes: 
   - \usepackage{svg}
@@ -32,23 +32,49 @@ library(gridExtra)
 
 
 # Introduction 
-This paper investigates racial disparities in traffic stops by the Austin Police Department. Using data available from Austin Open Data, a Texas government-run data portal, and from the Stanford Open Policing Project, we evaluate these disparities using models derived from the "hit rate" and the effect of the "veil of darkness," two often-cited methods for assessing fair policing. Our main report consists of three parts. First, we conduct an exploratory data analysis to get a big picture of policing in Austin. Second, we use various modeling strategies to assess the severity of racial disparities. Third, we propose a measure of fairness based on the differences in the posterior median hit rate among individual police officers.
+This study investigates racial disparities in traffic stops by the Austin Police Department. Using data available from Austin Open Data, a Texas government-run data portal, and from the Stanford Open Policing Project, we evaluate these disparities using models derived from the "hit rate" and the effect of the "veil of darkness," two often-cited methods for assessing fair policing. 
+
+
+# Introduction 
+Our study consists of three parts:
+
+- Exploratory data analysis to get a big picture of policing in Austin:
+  - Benchmark Test
+  - Outcome Test
+  - Veil of Darkness Test
+
+- Various modeling strategies to assess the severity of racial disparities:
+  - Logistic Regression 
+  - Bayesian Hierarchical Model
+
+- Propose a measure of fairness 
+  - based on the differences in the posterior median hit rate among individual police officers
 
 # Available Data
- The primary data set is from the Stanford Open Policing Project\footnote[1]{Stanford Open Policing Project (OPP): https://openpolicing.stanford.edu/data/} (from here on referred to as the Stanford data). This data set record stops made by the APD a roughly ten year period (2006.01.01 - 2016.06.30) and contains information such as the date of the stops, the subject’s race, whether the person was searched or frisked, whether any contraband were found. Notably, this data lacks information about the time or place of the stops. Because the 2016 data is incomplete, we focus on the data for which we have complete years (2006-2015) for the bulk of the analysis; this contains 463,944 stops. 
+- Stanford Open Policing Project data (2006.01.01 - 2016.06.30, 463,944 stops): stops time, the driver race, searched or frisked, contraband discovered etc.
+  - Merits: contain driver race
+  - Drawbacks: miss time and location information
+  
+- APD Racial Profiling data (2019, 79,693 stops): similar to Stanford data 
+  - Merits: contain time, location, and officer race
+  - Drawback: miss driver race
+  
+- US census demographic data (2012-2017 5-year average data, 2019): contain population of different races
+  
+- APD Racial Profiling Report: contain driver races in general sense
 
----
- 
-Our secondary data set is from the 2019 Racial Profiling report, available from Austin Open Data (and hereafter referred to as the RP data). This data set contains similar information as the Stanford data, with additional information about the event time, location, and officer race. Notably, the race of the subject is missing from this data.
- 
-Lastly, we use US census demographic data. Specifically, we use 2017 5-year American Community Survey zip-code-level data with the Stanford data, and 2019 census population data for 2019 Austin RP data. In addition, we also refer to the racial profiling reports from the Austin Police Department.
- 
-## Summary Statistics
 
-Summary statistics for the Stanford data are as follows.The statistics reported cover all available data (2006.01.01 - 2016.06.30). Unique officer IDs are available but not shown here.
+# Summary Statistics
+\begin{center}
+\includegraphics[width=4.5in]{pic/pic2.png}
+\label{tab:1}
+\end{center}
 
+- Summary statistics for all stops
+- Summary statistics for for stops during which a search was performed
 
-```{r, results='asis', fig.cap="Summary statistics for all stops."}
+```{r, results='asis', fig.cap="Summary statistics for all stops.",results="hide"}
+options(xtable.comment = FALSE)
 fancy.summarize <- source("fancy_summarize.R")$value
 
 d <- readRDS("austin.rds")
@@ -76,23 +102,27 @@ summary.stats.tables <- apply(d.cat,2,tabyl)
 
 ```
 
----
 
-```{r,results='asis', fig.cap="Summary statistics for for stops during which a search was performed."}
+
+```{r,results='asis', fig.cap="Summary statistics for for stops during which a search was performed.", eval=F}
 summary.stats2 <- d.numeric.search %>% 
   mutate_all(as.numeric) %>% 
   as.data.frame() %>% 
   fancy.summarize(uniq=T,nmis=T, latex = T)
 ```
 
----
 
+---
+# Summary Statistics
 ```{r, fig.cap = "Subject race and search basis."}
 rr <- summary.stats.tables[[1]] %>% select(c(1,2,4))
 names(rr) <- c("Race","n","percent")
 kable(rr, caption = "Subject race.") %>% 
   kable_styling(position = "center")
-
+```
+---
+# Summary Statistics
+```{r }
 rr <- summary.stats.tables[[2]] %>% select(c(1,2,4))
 names(rr) <- c("Search basis","n","percent")
 kable(rr,caption ="Search basis.") %>%
@@ -101,17 +131,24 @@ kable(rr,caption ="Search basis.") %>%
 ```
 
 ---
+# Summary Statistics
 
-```{r, fig.cap = "Distribution of stops by unique officer ID"}
+We note that the distribution of stops per officer has an extremely long tail.
+
+```{r, fig.cap = "Distribution of stops by unique officer ID", fig.width=4 ,fig.height=3}
 officer.counts <- d %>% group_by(officer_id_hash) %>% summarise(`Number of stops per officer` = n()) 
 boxplot(officer.counts$`Number of stops per officer`)
 ```
 
-We note that the distribution of stops per officer has an extremely long tail.
+
+
 
 # Exploratory Analysis
 
-We first examine the count of stops by race during 2006-2015 (Table \ref{tab:1}), using the Stanford Data. It is notable that over half of the stops involved were of white subjects, about four times the number of stops of Black people. According to 5-year census data, the white population in Austin (445,269) is almost 7 times than the black population (66,724) --- a classic Simpson's paradox. Examining figure \ref{fig:1}, we can see that at least for Black, Hispanic and white drivers, the annual trends are very different by race. 
+Examine the count of stops by race during 2006-2015:
+
+- Half of the stops involved were of white subjects, about four times the number of stops of black people
+- The white population in Austin (445,269) is almost 7 times than the black population (66,724) 
 
 \begin{center}
 \begin{tabular}{ll c}
@@ -126,60 +163,77 @@ unknown	&2622&	0.007\\
 white	&211588&	0.593\\
 \hline
 \end{tabular}
-\captionof{table}{Proportion of stops by race during 2006-2015}
 \label{tab:1}
+\end{center}
 
----
 
-\includegraphics[width=4in]{pic1.png}
-\captionof{figure}{Race proportion in each year}
+# Exploratory Analysis
+
+Examine race proportion in each year: 
+
+- Annual trends are very different by race
+- Fewer white drivers stopped especially after 2009
+- An increasing trend of Hispanic and black drivers being stopped 
+\begin{center}
+\includegraphics[width=3in]{pic1.png}
 \label{fig:1}
 \end{center}
 
-    
-We can see that fewer white drivers stopped especially after 2009, whereas there continued to be an increase trend for Hispanic and black drivers stopped over the nine years.  
 
-### Benchmark Test
+# Benchmark Test
+\begin{align*}
+\text{Stop Rate}_{i} &= \frac{\text{Number of Stops for Race }i}{\text{Population of Race } i}\\ 
+\text{Search Rate}_{i} &= \frac{\text{Number of Stopped People Who Were Searched for Race }i}{\text{Number of Stops for Race }i} \\ 
+\text{Frisk Rate}_{i} &= \frac{\text{Number of Stopped People Who Were Frisked for Race }i}{\text{Number of Stops for Race }i}
+\end{align*}
 
-As mentioned previously, the number of the white drivers stopped is four times of the black drivers, while the white population in Austin is actually over 6 times of the black population. We need to compare the stop times with the population in each demographic groups. 
-$$\text{Stop Rate}_{i} = \frac{\text{Number of Stops for Race }i}{\text{Population of Race } i}$$
- From Table \ref{tab:2}, we can see black drivers are stopped with a rate much higher than the drivers of other races. We can investigate this further by looking at other benchmarks such as search rate and frisk rate with stopped population as baseline. 
- $$\text{Search Rate}_{i} = \frac{\text{Number of Stopped People Who Were Searched for Race }i}{\text{Number of Stops for Race }i}$$
- $$\text{Frisk Rate}_{i} = \frac{\text{Number of Stopped People Who Were Frisked for Race }i}{\text{Number of Stops for Race }i}$$
-Again, from the last two columns of Table \ref{tab:2}, we can see Black and Hispanic drivers are searched with a rate 3 times higher than white drivers, and almost 8 times higher than Asian/Pacific drivers. The Black and Hispanic drivers are also frisked with a rate much higher than the drivers of other races. 
 
 \begin{center}
-\begin{table}[H]
-\caption{Stop rates, search rates and frisk rates during 2015}\label{tab:2}
-\begin{tabular}{llllllll}
-\hline
-Driver Race & Counts & Population & Proportion & Stop Rate & Search Rate & Frisk Rate & Hit Rate\\
-\hline
-asian/pacific &	11658& 63752	&0.033& 0.183 & 0.015&	0.011 &0.188	\\ 
-black	&52381&	66724	 & 0.147 & 0.785& 0.092 &	0.039 &0.254  \\ 
-hispanic&	765707&	316709 &0.215 &0.242& 0.086&	0.044	&0.323	\\ 
-white	&211588& 445269	&0.593 & 0.475 &0.031&	0.021 & 0.318	\\
-\hline
-\end{tabular}
-\end{table}
+\includegraphics[width=4.5in]{pic/pic3.png}
 \end{center}
- 
-The racial disparity by the police is clear from benchmark test, but it is insufficient evidence of discriminative policing. The key part of this analysis is to find out the true distribution of the drivers violating the traffic laws or conducting crimes. We need to check if different race groups are disproportionately stopped corresponding to their rates of violating the law. 
 
-### Outcome Test
- In order to more rigorously investigate and measure the fairness, we shall look at the result of the searches to see if the targeted drivers are really actually doing something illegal. Here, we define a successful search as one that uncovers contraband, and we define the hit rate as the proportion of searches that are successful. 
+# Benchmark Test Caveats
+
+- The racial disparity by the police is clear from benchmark test, but it is insufficient evidence of discriminative policing.
+  - E.g., if black drivers, hypothetically, spend more time on the road than white drivers, that could explain the higher stop rates for black drivers
+- The key part of this analysis is to find out the true distribution of the drivers violating the traffic laws or conducting crimes. 
+- We need to check if different race groups are disproportionately stopped corresponding to their rates of violating the law. 
+
+# Outcome Test
+
+- Define a successful search as one that uncovers contraband
+- Hit rate is the proportion of searches that are successful
+  - If racial groups have different hit rates, it can be taken as evidence of discriminative policing
+
   $$\text{Hit Rate}_{i} = \frac{\text{Number of Contraband Uncovered for Race }i}{\text{Number of Searched People for Race }i}$$
-If racial groups have different hit rates, it can be taken as evidence of discriminative policing. From the last column in Table \ref{tab:2}, we can see the hit rate for Black and Asian/Pacific drivers are lower than for white and Hispanic drivers, indicating police may have a lower threshold of evidence when searching Black or Asian/Pacific drivers. 
+\begin{center}
+\includegraphics[width=4.5in]{pic/pic3.png}
+\end{center}
 
-### Veil of Darkness Test \& Fisher's Exact Test
-According to Grogger and Ridgeway, the "Veil of Darkness" test can help assess the bias in the stop decisions. The hypothesis of this test states that officers who are engaged in racial profiling are less likely to be able to identify a driver's
-race after dark than during daylight. Under this hypothesis, if stops made
-after dark had smaller proportion of black drivers stopped than stops made
-during daylight, it could be evidence of racial profiling. 
+# Outcome Test Caveats
 
----
+- Only outcomes available: Although the outcome test is simple and intuitive, the actual threshold for searching someone is not observed. 
 
-Because neither of our data sets contain both driver races and stop time information, we venture to an indirect way by measuring the racial population in different areas through zip codes by 2019 RP data provided by Austin Police Department. In order to accurately distinguish the daytime and nighttime, we compute the daily subset and dusk time for Austin in 2019. In Table \ref{tab:3} we can see earliest sunset in 2019 was at around 17:32 in early December and it goes fully dark in 26 minutes. The latest sunset time was around 20:38 late June and it was fully dark after 28 minutes. 
+- Infra-marginality problem: Outcome tests of disparate treatment may only measure the average outcome and not the outcomes associated with the marginal decision. Observing that the average hit rate for minorities was lower than for whites does not necessarily prove that the threshold (or marginal) expected success rate was lower for minorities than for whites
+
+- Subgroup validity problem: When a particular observable characteristic is valid for some races but not for others, it is possible that a decisionmaker who conditions decisions on this characteristic generally might induce racially disparate outcomes. A decisionmaker's unwillingness to engage in disparate racial treatment may induce the racial disparities in outcomes
+
+
+# Veil of Darkness Test
+
+- Hypothesis: officers who are engaged in racial profiling are less likely to be able to identify a driver's race after dark than during daylight 
+
+- Under this hypothesis, if stops made after dark had smaller proportion of black drivers stopped than stops made during daylight, it could be evidence of racial profiling. 
+
+- Two key elements: Driver race & Stop time
+
+- Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in black populated ares is significantly different from the ones made in white populated area, it could be evidence of racial profiling.  
+
+# Veil of Darkness Test
+In order to accurately distinguish the daytime and nighttime, we compute the daily subset and dusk time for Austin in 2019. 
+
+- Earliest sunset in 2019 was at around 17:32 in early December and it goes fully dark in 26 minutes
+- Latest sunset time was around 20:38 late June and it was fully dark after 28 minutes. 
 
 
 \begin{center}
@@ -193,8 +247,23 @@ Date & Sunset & Dusk & Sunset Minute & Dusk Minute \\
 2019-06-29&	20:37:56&	21:05:27&	1237&	1265\\
 \hline
 \end{tabular}
-\captionof{table}{Minimum and maximum dusk time during the 2019 in Austin}\label{tab:3}
+\end{center}
 
+- Daytime Stop: stops happening before sunset
+- Nighttime Stop: stop happening after the dusk
+
+# Veil of Darkness Test
+
+According to ZIP codes and the corresponding demographic data, we consider 
+
+- Black Dominant Area (BDA): the areas consist of more black people 
+- White Dominated Area (WDA): the areas consist of more white people
+
+For simplicity of the analysis, here we consider only the black and the white population groups. Hence, each zip code is regarded as a location with label as white (WDA) or black (BDA). 
+
+# Veil of Darkness Test
+
+\begin{center}
 \begin{tabular}{lll}
 \hline
 & Day &Night \\
@@ -203,61 +272,49 @@ BDA & 124   & 126\\
 WDA & 2937 & 2216\\
 \hline
 \end{tabular}
-\captionof{table}{Contingency Table}\label{tab:4}
 \end{center}
 
-\hspace{2in}
+- Assume two rows as independent binomial samples
+- Of $n_1 = 250$ recorded stops in black dominated area, 124 stops happened during the daytime, a proportion of $p_1 = 124/250 = 0.496$ 
+- Of $n_2 = 5153$ recorded stops in white dominated area, 124 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$
+- The sample difference of proportions is 0.074
+- We obtain Fisher's exact test for testing null hypothesis of independence of the two rows with p value of 0.02, indicating the strong evidence that the police are not equally likely practicing during day and night to different racial groups. 
 
----
+# Veil of Darkness Test Caveats
 
-We denote the stops happening before sunset as Daytime Stop, and the stop happening after the dusk as Nighttime Stop. We do not consider the stops happening between the sunset and dusk in this study. According to ZIP codes and the corresponding demographic data, we consider the areas that have more black people as black dominant area (BDA), and the areas consist of more white people as white dominated area (WDA).
-For simplicity of the analysis, here we consider only the black and the white population groups. Hence, each zip code is regarded as a location with label as white (WDA) or black (BDA). 
+- Artificial lighting (e.g., from street lamps) can weaken the relationship between sunlight and visibility, and so the method may underestimate the extent to which stops are predicated on perceived race.
+- Vehicle make, year, and model often correlate with race and are still visible at night, which could lead to the test under-estimating the
+extent of racial profiling. 
+- The test doesn't control for stop reason, which is often correlated with both race and time of day. 
+  - E.g: broken tail light stops
 
-We record the stops happening in each zip codes into two categories: daytime stops or nighttime stops, and we treat two rows in Table \ref{tab:4} as independent binomial samples. Of $n_1 = 250$ recorded stops in black dominated area, 124 stops happened during the daytime, a proportion of $p_1 = 124/250 = 0.496$. Of $n_2 = 5153$ recorded stops in white dominated area, 124 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$. The sample difference of proportions is 0.074. We obtain Fisher's exact test for testing null hypothesis of independence of the two rows with p value of 0.02, indicating the strong evidence that the police are not equally likely practicing during day and night to different racial groups. 
+
+# Hit Rate and Causal Issues
+- Unmeasured confounders: Crime rates are known to be correlated with income and demographic factors 
+  - More officers patrolled areas with higher crime rates
+  - Neighborhoods with higher minority populations is expected to see more minority traffic stops
+ 
+- Although this still exposes problems in Austin, it could be interpreted as a problem of economic segregation, not traffic fairness. 
+- To overcome this problem, we propose to look at the hit rate with more details in the modeling parts:
+  - The probability of finding contraband items should be equal among all races, regardless of the neighborhood that the search conducted
+  - Using hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem
 
 
-
-### Hit Rate and Causal Issues
-In our analysis of observational data, we have to deal with unmeasured confounders.  For example, one can argue that it would be unsurprising if more officers patrolled areas with higher crime rates; crime rates are known to be correlated with income and demographic factors. Therefore, if those neighborhoods have higher minority populations, we would expect to see more minority traffic stops. Although this still exposes problems in Austin, it could be interpreted as a problem of economic segregation, not traffic fairness. 
-
-To overcome this problem, we propose to look at the hit rate with more details in Section 3. We argue that given a person is being searched, the probability of finding contraband items should be equal among all races, regardless of the neighborhood that the search conducted. We want to emphasize that using hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem.
-
-# Modeling
-## Logistic Regression
-### Logistic Regression for Frisk Rate
+# Logistic Regression for Frisk Rate
 Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable and `race`, `age`, and `sex`. 
 
 $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
 
-Results can be found below.
-<!-- \begin{center} -->
-<!-- \begin{tabular}{l c} -->
-<!-- \hline -->
-<!--  Table 1:  The result of logistic model for frisk rate vs. race, age, and sex \\ -->
-<!-- \hline -->
-<!-- (Intercept)           & $-2.98^{***}(0.1)$ \\ -->
-
-<!-- Race: Black    & $1.50^{***}(0.1)$  \\ -->
-
-<!-- Race: Hispanic & $1.31^{***} (0.1)$  \\ -->
-
-<!-- Race: White    & $0.72^{***}(0.1)$  \\ -->
-
-<!-- Race: Other    & $0.62^{***}(0.18)$  \\ -->
-
-<!-- Race: Unknown  & $0.65^{***}(0.18)$  \\ -->
-
-<!-- Age          & $-0.05^{***}(0.0008)$ \\ -->
-
-<!-- Sex (female)    & $-1.64^{***}(0.04)$ \\ -->
+\begin{center}
+\small 
+ Logistic model for frisk rate vs. race, age, and sex
+\includegraphics[width=3.5in]{pic/pic4.png}
+\end{center}
 
 
-<!-- \hline -->
-<!-- \multicolumn{2}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}} -->
-<!-- \end{tabular} -->
-<!-- \end{center} -->
 
-### Logistic Regression for Contraband found
+
+# Logistic Regression for Contraband found
 
 We want to investigate how likely contraband items are found when searching is performed. This is equivalent to calculating hit rate defined in section 2.2.2. We argue that if racial bias does not exist, the hit rate should be equal for all races. In other words, we expect to find that `race` is not an essential factor in the model:
 
@@ -265,57 +322,23 @@ $$\text{Logit[P(Contraband found)]} = \beta_0 + \beta_1\text{Race}.$$
 
 We also break down contraband found into three categories: Drugs, Weapons, and Others. We also fit a logistic regression model for each of these categories with `Race` as the sole independent variable. 
 
-<!-- \begin{center} -->
-<!-- \begin{tabular}{l c} -->
-<!-- \hline -->
-<!--  Table 2: The result of logistic model for contraband found vs. race \\ -->
-<!-- \hline -->
-<!-- (Intercept)           & $-2.03^{***}(0.23)$ \\ -->
 
-<!-- Black    & $0.94^{***}(0.23)$  \\ -->
-
-<!-- Hispanic & $0.99^{***}(0.23)$  \\ -->
-
-<!-- White    & $0.86^{***}(0.23)$  \\ -->
-
-<!-- Other    & $0.85^{*}(0.36)$    \\ -->
-
-<!-- Unknown  & $-0.22 (0.46)$       \\ -->
-
-<!-- \hline -->
-<!-- \multicolumn{2}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}} -->
-<!-- \end{tabular} -->
-<!-- \end{center} -->
-
----
+# Logistic Regression for Contraband found
 
 \begin{center}
-\begin{tabular}{l c c c}
-\hline
-Other Results \\
-Contraband found & Drugs & Weapons & Others \\
-\hline
-(Intercept)           & $-5.24^{***}(1.00)$ & $-3.61^{***}(0.45)$ & $-2.38^{***} (0.26)$ \\
 
-Black    & $1.10 (1.01)$        & $0.32 (0.46)$        & $0.99^{***}(0.26)$  \\
-
-Hispanic & $1.21 (1.01)$        & $0.36 (0.46)$        & $1.04^{***}(0.26)$  \\
-
-White    & $0.73 (1.01)$        & $0.98^{*}(0.46)$    & $0.72^{**}(0.26)$   \\
-
-Other    & $0.97 (1.42)$        & $0.47(0.74)$        & $0.87^{*}(0.40)$    \\
-
-Unknown  & $-11.33 (280.85)$      & $0.04(0.85)$        & $-0.23 (0.53)$       \\
-
-\hline
-\multicolumn{4}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}}
-\end{tabular}
-
-\label{table:coefficients}
+Logistic model for contraband found vs. race
+\includegraphics[width=3.5in]{pic/pic5.png}
 \end{center}
 
 
----
+\begin{center}
+Logistic regression model for race vs. each category in contraband
+\includegraphics[width=3.5in]{pic/pic6.png}
+\end{center}
+
+
+<!--
 
 ```{r, eval=T}
 austin.dat = d
@@ -358,10 +381,21 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 #mod.7 = glm(as.factor(contraband_others) ~ subject_race, data = austin.dat2[austin.dat2$search_conducted ==T,], family = binomial())
 #summary(mod.7)
 ```
+-->
 
-From table 7, black and Hispanic people are more likely to be frisked than white people. The estimated odd of being frisked for the black is 2.22 times the estimated odd for the white. This odd ratio for Hispanic people is 1.8. Asian people is the least likely to be frisked. From table 8 and table 9, contraband items is more likely to be found for Hispanic and black people. White people is more likely to be found with weapons and black and Hispanic people are more likely to be found with contraband items that are neither drugs or weapons.
+# Logistic Regression
 
-## Bayesian Modeling
+- Black and Hispanic drivers are more likely to be frisked than white drivers
+  - The estimated odd of being frisked for the black is 2.22 times the estimated odd for the white. This odd ratio for Hispanic people is 1.8. 
+  - Asian people is the least likely to be frisked. 
+  
+- Contraband items are more likely to be found from Hispanic and black drivers
+  - White people is more likely to be found with weapons 
+  - Black and Hispanic people are more likely to be found with contraband items that are neither drugs or weapons
+
+
+
+# Bayesian Modeling
 ### Investigating the Hit Rate
 
 The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk; a lower hit rate for a particular segment of the population can signal that an officer has a lower threshold of evidence when policing that population segment. In the following analysis, we examine the hit rate at the officer level. Because the analysis requires that officers have stopped all races under consideration, we restrict the analysis to only White, Black, and Hispanic subject races and to officers with 18 or more stops, corresponding to roughly the 90th percentile.
@@ -603,15 +637,25 @@ comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% kable(
 ```
 
 # Conclusion
-In this study, we evaluate the fairness of traffic stops during the past two decades through three tests, namely benchmark test, outcome test and veil of darkness test. We found that the racial disparity in policing exists and is present in different scales spatially and temporarily. We also explore the causal confounding issues through logistic regression, finding that black and Hispanic people are more likely to be frisked and found with contraband items that are neither drugs or weapons. 
 
-Through the investigation of the hit rate via Bayesian hierarchical modeling, we obtained posteriors for the hit rate for each officer in a subset of the data. Using the medians for these posteriors, we devised a "fairness score," a tool we believe could be used to identify officers with racially disparate patterns of traffic stops. 
+- Three Tests (benchmark test, outcome test and veil of darkness test): 
+  - Evaluate the fairness of traffic stops 
+  - Confirm racial disparity in policing exists and is present in different scales
+- Frequentist Modeling: 
+  - Explore the causal confounding issues through logistic regression
+  - Conclude black and Hispanic people are more likely to be frisked and found with contraband items that are neither drugs or weapons
+- Bayesian Modeling:
+  - Investigate the hit rate via Bayesian hierarchical modeling
+  - Obtain posteriors for the hit rate for each officer in a subset of the data
+  - Devised a "fairness score" from the posteriors medians, a tool we believe could be used to identify officers with racially disparate patterns of traffic stops
 
+# Thank you for your attention!
+\centering
 \begin{center}
-\includegraphics[width=8in]{funkystats.jpg}
-\includegraphics[width=4in]{upstat_logo}
-\captionof{figure}{FunkyStats: David Skrill, Qiuyi Wu, Cuong Pham (from left to right)}
-\label{fig:logo}
+\includegraphics[width=8.5in]{funkystats.jpg}
+\includegraphics[width=2.5in]{upstat_logo}
+\label{fig:logo}\\
+FunkyStats: David Skrill, Qiuyi Wu, Cuong Pham (from left to right)
 \end{center}
 
 
