@@ -150,7 +150,7 @@ boxplot(officer.counts$`Number of stops per officer`)
 
 Examine the count of stops by race during 2006-2015:
 
-- Half of the stops involved were of white subjects, about four times the number of stops of black people
+- Half of the stops involved were of white drivers, about four times the number of stops of black people
 - The white population in Austin (445,269) is almost 7 times than the black population (66,724) 
 
 \begin{center}
@@ -232,7 +232,7 @@ Examine race proportion in each year:
 - Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in black populated ares is significantly different from the ones made in white populated area, it could be evidence of racial profiling.  
 
 # Veil of Darkness Test
-In order to accurately distinguish the daytime and nighttime, we compute the daily subset and dusk time for Austin in 2019. 
+In order to accurately distinguish the daytime and nighttime, we compute the daily sunset and dusk time for Austin in 2019. 
 
 - Earliest sunset in 2019 was at around 17:32 in early December and it goes fully dark in 26 minutes
 - Latest sunset time was around 20:38 late June and it was fully dark after 28 minutes. 
@@ -278,7 +278,7 @@ WDA & 2937 & 2216\\
 
 - Assume two rows as independent binomial samples
 - Of $n_1 = 250$ recorded stops in black dominated area, 124 stops happened during the daytime, a proportion of $p_1 = 124/250 = 0.496$ 
-- Of $n_2 = 5153$ recorded stops in white dominated area, 124 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$
+- Of $n_2 = 5153$ recorded stops in white dominated area, 2937 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$
 - The sample difference of proportions is 0.074
 - We obtain Fisher's exact test for testing null hypothesis of independence of the two rows with p value of 0.02, indicating the strong evidence that the police are not equally likely practicing during day and night to different racial groups. 
 
@@ -303,7 +303,7 @@ extent of racial profiling.
 
 
 # Logistic Regression for Frisk Rate
-Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable and `race`, `age`, and `sex`. 
+Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable of `race`, `age`, and `sex`. 
 
 $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
 
@@ -318,7 +318,7 @@ $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{A
 
 # Logistic Regression for Contraband found
 
-We want to investigate how likely contraband items are found when searching is performed. This is equivalent to calculating hit rate defined in section 2.2.2. We argue that if racial bias does not exist, the hit rate should be equal for all races. In other words, we expect to find that `race` is not an essential factor in the model:
+We want to investigate how likely contraband items are found when searching is performed. We argue that if racial bias does not exist, the hit rate should be equal for all races. In other words, we expect to find that `race` is not an essential factor in the model:
 
 $$\text{Logit[P(Contraband found)]} = \beta_0 + \beta_1\text{Race}.$$
 
