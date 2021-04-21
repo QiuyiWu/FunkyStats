@@ -663,14 +663,14 @@ fairness.df <- data.frame(ID = comparisons$ID, score = output)
 fairness.df %>% ggplot(aes(x=score)) + geom_histogram(bins=100)
 ```
 
----
+# EX: 5 Highest Scores
 
-```{r,ref.label="Highest 5 scores."}
+```{r,eval=T}
 ex5 <- fairness.df %>% arrange(desc(score)) %>% pull(ID)
 ex5 <- ex5[1:5]
 comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% 
   kable(caption="Highest 5 scores.", booktabs=T) %>% 
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = "scale_down")
 
 ```
 
