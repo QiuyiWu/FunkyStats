@@ -122,7 +122,8 @@ names(rr) <- c("Race","n","percent")
 kable(rr, caption = "Subject race.") %>% 
   kable_styling(position = "center")
 ```
----
+
+
 # Summary Statistics
 ```{r }
 rr <- summary.stats.tables[[2]] %>% select(c(1,2,4))
@@ -132,7 +133,7 @@ kable(rr,caption ="Search basis.") %>%
 
 ```
 
----
+
 # Summary Statistics
 
 We note that the distribution of stops per officer has an extremely long tail.
@@ -685,13 +686,30 @@ comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>%
   - Investigate the hit rate via Bayesian hierarchical modeling
   - Obtain posteriors for the hit rate for each officer in a subset of the data
   - Devised a "fairness score" from the posteriors medians, a tool we believe could be used to identify officers with racially disparate patterns of traffic stops
+  
+# Confront Systemic Racism
+
+
+\centering
+\begin{center}
+\includegraphics[width=2.5in]{pic/floyd.jpg}
+\includegraphics[width=1.9in]{pic/chauvin.jpg}
+\begin{itemize}
+\item Left: “Say Their Names” by Kadir Nelson (The New Yorker 2020) 
+\item Right: Derek Chauvin guilty of George Floyd's murder, Apr 20, 2021
+\end{itemize}
+This is not justice.\\
+This is accountability.\\
+Chauvin is where we start.\\
+The whole system is next.
+\end{center}
+
 
 # Thank you for your attention!
 \centering
 \begin{center}
-\includegraphics[width=8.5in]{funkystats.jpg}
-\includegraphics[width=2.5in]{upstat_logo}
-\label{fig:logo}\\
+\includegraphics[width=9in]{funkystats.jpg}\\
+\includegraphics[width=2.2in]{upstat_logo}\\
 FunkyStats: David Skrill, Qiuyi Wu, Cuong Pham (from left to right)
 \end{center}
 
