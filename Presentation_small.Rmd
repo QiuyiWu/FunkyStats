@@ -331,6 +331,8 @@ austin.dat1$year = as.numeric(austin.dat1$year)
 #austin.dat1 = austin.dat1[austin.dat1$subject_race != "unknow", ]
 austin.dat1 = na.omit(austin.dat1)
 mod.1 = glm(frisk_performed ~ subject_race + subject_age + subject_sex, data = austin.dat1, family = binomial())
+names(mod.1$coefficients) = mod.1$coefficients %>% names %>% gsub("subject_race","",x=.)
+
 tidy(mod.1)  %>% mutate(signif = gtools::stars.pval(p.value)) %>% 
     mutate_if(is.numeric,round,4) %>% 
   mutate(p.value = (paste0(as.character(p.value),signif)), signif=NULL) %>%
@@ -338,7 +340,6 @@ tidy(mod.1)  %>% mutate(signif = gtools::stars.pval(p.value)) %>%
   kable_styling(position="center", latex_options = "scale_down")
 
 ```
-
 
 
 
