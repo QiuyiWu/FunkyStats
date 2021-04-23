@@ -327,12 +327,53 @@ We also break down contraband found into three categories: Drugs, Weapons, and O
 
 # Logistic Regression for Contraband found
 
-\begin{center}
+<!-- \begin{center} -->
 
-Logistic model for contraband found vs. race
-\includegraphics[width=3.5in]{pic/pic5.png}
-\end{center}
+<!-- Logistic model for contraband found vs. race -->
+<!-- \includegraphics[width=3.5in]{pic/pic5.png} -->
+<!-- \end{center} -->
+```{r}
+austin.dat = d %>% mutate(subject_race = relevel(subject_race,"white"))
 
+library(broom)
+
+austin.dat1 = austin.dat %>% select(date, subject_age, subject_race, subject_sex, frisk_performed)#, search_conducted, contraband_found,
+                                    #contraband_drugs, contraband_weapons) 
+
+austin.dat1$frisk_performed = as.factor(austin.dat1$frisk_performed)
+
+austin.dat1$year = substr(austin.dat1$date, 1,4)
+austin.dat1$year = as.numeric(austin.dat1$year)
+
+#austin.dat1 = austin.dat1[austin.dat1$subject_race != "unknow", ]
+austin.dat1 = na.omit(austin.dat1)
+mod.1 = glm(frisk_performed ~ subject_race + subject_age + subject_sex, data = austin.dat1, family = binomial())
+#tidy(mod.1)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic model for frisk rate vs. race, age, and sex") %>% 
+#  kable_styling(position="center")
+
+#mod.2 = glm(search_conducted ~ subject_race + subject_age + subject_sex + year, data = austin.dat1, family = binomial())
+#summary(mod.2)
+
+austin.dat2 = austin.dat %>% select(date, subject_age, subject_race, subject_sex, search_conducted, contraband_found,
+contraband_drugs, contraband_weapons)
+
+austin.dat2$search_conducted = as.factor(austin.dat2$search_conducted)
+austin.dat2$contraband_found = as.factor(austin.dat2$contraband_found)
+austin.dat2$contraband_others = ifelse(austin.dat2$contraband_weapons == F & austin.dat2$contraband_drugs == F & austin.dat2$contraband_found == T,T,F)
+
+
+mod.4 = glm(as.factor(contraband_found) ~ subject_race, data = austin.dat2[austin.dat2$search_conducted == T,], family = binomial())
+names(mod.4$coefficients) = mod.4$coefficients %>% names %>% gsub("subject_race","",x=.)
+tidy(mod.4)  %>% 
+  mutate(signif = gtools::stars.pval(p.value)) %>% 
+    mutate_if(is.numeric,round,4) %>% 
+  mutate(p.value = (paste0(as.character(p.value),signif)), signif=NULL) %>% 
+  kable(caption = "Logistic model for contraband found vs.  race") %>% 
+  kable_styling(position="center", latex_options = "scale_down")
+```
+
+
+---
 
 \begin{center}
 Logistic regression model for race vs. each category in contraband
@@ -341,9 +382,8 @@ Logistic regression model for race vs. each category in contraband
 
 
 
-
 ```{r, eval=F,echo=F}
-austin.dat = d
+austin.dat = d %>% mutate(subject_race = relevel(subject_race,"white"))
 
 library(broom)
 austin.dat1 = austin.dat %>% select(date, subject_age, subject_race, subject_sex, frisk_performed)#, search_conducted, contraband_found,
