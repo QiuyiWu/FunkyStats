@@ -14,6 +14,21 @@ header-includes:
   - \floatplacement{figure}{H}
   - \usepackage{caption}
   - \usepackage{booktabs}
+  - \usepackage{array}
+  - \usepackage{xcolor}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{multirow}
+  - \usepackage{wrapfig}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{makecell}
+
+
 bibliography: references.bib
 
 ---
@@ -34,11 +49,7 @@ library(gridExtra)
 
 
 # Introduction 
-This study investigates racial disparities in traffic stops by the Austin Police Department. Using data available from Austin Open Data, a Texas government-run data portal, and from the Stanford Open Policing Project, we evaluate these disparities using models derived from the "hit rate" and the effect of the "veil of darkness," two often-cited methods for assessing fair policing. 
-
-
-# Introduction 
-Our study consists of three parts:
+Our presentation consists of three parts:
 
 - Exploratory data analysis to get a big picture of policing in Austin:
   - Benchmark Test
@@ -55,15 +66,15 @@ Our study consists of three parts:
 # Available Data
 - Stanford Open Policing Project data (2006.01.01 - 2016.06.30, 463,944 stops): stops time, the driver race, searched or frisked, contraband discovered etc.
   - Merits: contain driver race
-  - Drawbacks: miss time and location information
+  - Drawbacks: missing time and location information
   
-- APD Racial Profiling data (2019, 79,693 stops): similar to Stanford data 
+- APD Racial Profiling data (2019, 79,693 stops): 
   - Merits: contain time, location, and officer race
-  - Drawback: miss driver race
+  - Drawback: missing driver race
   
-- US census demographic data (2012-2017 5-year average data, 2019): contain population of different races
-  
-- APD Racial Profiling Report: contain driver races in general sense
+- US census demographic data (2012-2017 5-year, 2019 ACS)
+
+- APD Racial Profiling Report
 
 <!--
 # Summary Statistics
@@ -135,7 +146,7 @@ kable(rr,caption ="Search basis.") %>%
 ```
 -->
 
-# Summary Statistics
+# Number of stops
 
 We note that the distribution of stops per officer has an extremely long tail.
 
@@ -151,25 +162,24 @@ ggplot(officer.counts,aes(`Number of stops per officer`)) + geom_histogram(colou
 
 
 
----
 # Exploratory Analysis
 
-Examine the count of stops by race during 2006-2015:
+Examining the count of stops by race during 2006-2015:
 
-- Half of the stops involved were of white drivers, about four times the number of stops of black people
-- The white population in Austin (445,269) is almost 7 times than the black population (66,724) 
+- More than half of the stops were of white drivers; the number of stops for white drivers is roughly four times that of Black drivers.
+- The white population in Austin (445,269) is almost 7 times larger than the Black population (66,724) 
 
 \begin{center}
 \begin{tabular}{ll c}
 \hline
 Driver Race & Counts & Proportion \\
 \hline
-asian/pacific &	11658&	0.033\\ 
-black	&52381&	0.147\\ 
-hispanic&	765707	&0.215	\\ 
-other	&2105&	0.006	\\ 
-unknown	&2622&	0.007\\ 
-white	&211588&	0.593\\
+Asian/Pacific &	11658&	0.033\\ 
+Black	&52381&	0.147\\ 
+Hispanic&	765707	&0.215	\\ 
+Other	&2105&	0.006	\\ 
+Unknown	&2622&	0.007\\ 
+White	&211588&	0.593\\
 \hline
 \end{tabular}
 \end{center}
@@ -202,7 +212,7 @@ Examine race proportion in each year:
 
 ## Benchmark Test Caveats
 - Insufficient evidence of discriminative policing
-- Seek true distribution of the drivers violating the laws 
+- We seek the true distribution of the drivers violating the law 
 - Check if different race groups are disproportionately stopped 
 
 # Outcome Test
@@ -229,7 +239,7 @@ Examine race proportion in each year:
 
 - Two key elements: Driver race & Stop time
 
-- Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in black populated ares is significantly different from the ones made in white populated area, it could be evidence of racial profiling.  
+- Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in areas with a larger Black population than white population show substantially different patterns than stops in areas with larger white populations, it could be evidence of racial profiling.  
 
 # Veil of Darkness Test
 In order to accurately distinguish the daytime and nighttime, we compute the daily sunset and dusk time for Austin in 2019. 
@@ -241,37 +251,38 @@ In order to accurately distinguish the daytime and nighttime, we compute the dai
 \begin{center}
 \begin{tabular}{lllll}
 \hline
-Date & Sunset & Dusk & Sunset Minute & Dusk Minute \\
+Date & Sunset & Dusk \\
 \hline
-2019-12-02&	17:31:42&	17:57:48&	1051&	1077\\
-2019-06-30&	20:37:58&	21:05:27&	1237&	1265\\
+2019-12-02&	17:31:42&	17:57:48 \\
+2019-06-30&	20:37:58&	21:05:27 \\
 \hline
 \end{tabular}
 \end{center}
 
-- Daytime Stop: stops happening before sunset
-- Nighttime Stop: stop happening after the dusk
-- Black Dominant Area (BDA): the areas consist of more black people 
-- White Dominated Area (WDA): the areas consist of more white people
-
 For simplicity, here we consider only the black and the white population.
+
+- Daytime Stop: stops happening before sunset
+- Nighttime Stop: stop happening after dusk
+- Majority-Black Area (MBA): areas with a larger Black population than white population
+- Majority-white Area (MWA): areas with a larger white populkation than Black population
+
 
 # Veil of Darkness Test
 
 \begin{center}
 \begin{tabular}{lll}
 \hline
-& Day &Night \\
+& Day & Night \\
 \hline
-BDA & 124   & 126\\
-WDA & 2937 & 2216\\
+MBA & 124   & 126\\
+MWA & 2937 & 2216\\
 \hline
 \end{tabular}
 \end{center}
 
 - Assume two rows as independent binomial samples
-- Of $n_1 = 250$ recorded stops in black dominated area, 124 stops happened during the daytime, a proportion of $p_1 = 124/250 = 0.496$ 
-- Of $n_2 = 5153$ recorded stops in white dominated area, 2937 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$
+- Of $n_1 = 250$ recorded stops in majority-Black area, 124 stops happened during the daytime, a proportion of $p_1 = 124/250 = 0.496$ 
+- Of $n_2 = 5153$ recorded stops in majority-white area, 2937 stops happened during the daytime, a proportion of $p_2 = 2937/5153 = 0.570$
 - The sample difference of proportions is 0.074
 - We obtain Fisher's exact test for testing null hypothesis of independence of the two rows with p value of 0.02, indicating the strong evidence that the police are not equally likely practicing during day and night to different racial groups. 
 
@@ -282,9 +293,9 @@ WDA & 2937 & 2216\\
   - Neighborhoods with higher minority populations is expected to see more minority traffic stops
  
 - Although this still exposes problems in Austin, it could be interpreted as a problem of economic segregation, not traffic fairness. 
-- To overcome this problem, we propose to look at the hit rate with more details in the modeling parts:
-  - The probability of finding contraband items should be equal among all races, regardless of the neighborhood that the search conducted
-  - Using hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem
+- To overcome this problem, we propose looking at the hit rate, with more details to follow:
+  - Given that an officer has decided to search or frisk a subject, the probability of finding contraband should be equal among all races, regardless of the neighborhood in which the search was conducted (equal evidence thresholds).
+  - Using the hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem.
 
 # Logistic Regression
 ## Logistic Regression for Frisk Rate
@@ -427,21 +438,22 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 # Logistic Regression
 
 - Black and Hispanic drivers are more likely to be frisked than white drivers
-  - The estimated odd of being frisked for the black is 2.19 times the estimated odd for the white. This odd ratio for Hispanic people is 1.80. 
-  - Asian people is the least likely to be frisked. 
+  - The estimated odd of a Black driver being frisked during a stop is 2.19 time that of white drivers. For Hispanic drivers, the odds ratio is 1.80. 
+  - Asian people are the least likely to be frisked. 
   
-- Contraband items are more likely to be found from Hispanic and black drivers
-  - White people is more likely to be found with weapons 
+- Contraband items are more likely to be found when searching Hispanic and Black drivers
+  - White people are more likely to be found with weapons 
   - Black and Hispanic people are more likely to be found with contraband items that are neither drugs or weapons
 
 
 
 # Bayesian Modeling
 
-- The "hit rate," defined here as the proportion of times an officer finds contraband given that a frisk has been performed, is a widely-used measure for assessing potentially-discriminatory policing. 
-- The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk
-  - a lower hit rate for a particular subpopulation $\implies$ a lower threshold of evidence when policing that subpopulation?
-- Restrictions:
+- We use hierarchical models to investigate hit rates at the officer level. In the following analysis, we define the hit rate as the proportion of times an officer finds contraband given that a frisk has been performed.
+- The hit rate can be thought of as a proxy for "evidence" when an officer decides whether to conduct a search or a frisk.
+- We are interested in the hit rates for each subpopulation (white, Black, Hispanic) for each officer.
+  - a lower hit rate for a particular subpopulation could imply a lower threshold of evidence when policing that subpopulation.
+- Simplifying restrictions:
   - Consider only white, Black, and Hispanic subpopulations.
   - Consider only officers with 18 or more stops (roughly the 90th percentile and above).
 
@@ -466,7 +478,7 @@ searches <- d2 %>% filter(officer_id_hash %in% ids.to.keep) %>%
 
 # Visualizing individual officer hit rates
 
-```{r, fig.cap= "Hit rates for individual officers.",fig.height=2.5}
+```{r, fig.cap= "Hit rates for individual officers.",fig.height=4.5}
 hit_rates <- searches %>% 
   group_by(officer_id_hash,subject_race) %>% 
   summarise(
@@ -515,12 +527,11 @@ hit_rates %>%
 
 ---
 
-- We are interested in the hit rates for each subpopulation (white, Black, Hispanic) for each officer.
-- Can think of individual officers as belonging to a population of officers; we want to model both the hit rates of the individual officers and the variation of this population. 
+- We can think of individual officers as belonging to a population of officers; we want to model both the hit rates of the individual officers and the variation of this population. 
 - Because we are interested in hit rates for three different subpopulations, we fit three separate hierarchical models using different subsets of the data. 
   - For instance, we model the hit rate for Black subjects by directly subsetting the data to include only stops of Black subjects. 
 
----
+# Why hierarchical models?
 
 - Hierarchical models allow for *partial pooling*, by which individual hit rates are biased towards the population average by an amount determined by the estimates of the population parameters and the data available for each officer.
 - Why is partial pooling desirable in this case?
@@ -540,12 +551,12 @@ $$ \alpha_j = \mathrm{logit}(\theta_j) = \log\frac{\theta_j}{1-\theta_j}$$
 
 ---
 
-We set a weakly informative prior centered at $\alpha_j = -1.3$, corresponding to $\theta_j \approx 0.2$. The model is therefore
+We use a weakly informative Normal prior for $\alpha_j$ centered at $-1.3$ and with standard deviation 1 ($\mathrm{logit}^{-1}(\alpha_j) \approx .2$). The model is therefore
 
 $$ p(y_j | K_j, \alpha) = \mathrm{Binomial}(y_j | K_j, \mathrm{logit^{-1}}(\alpha_j))$$
 
 
-We proceed using `stan_glmer` and the default prior on the covariance matrix. 
+We proceed using `rstanarm::stan_glmer` and the default prior on the covariance matrix. 
 
 - The result includes a posterior for each officer; we may transform from the log-odds back to hit rate to to obtain a posterior for the the hit rate for each officer. 
 - We model each race separately, and so obtain three posteriors for each officer.
@@ -626,16 +637,25 @@ post.b <- readRDS("post.b.rds")
 post.h <- readRDS("post.h.rds")
 
 
-A <- post.w %>% head %>% select(2:4) %>% round(3)
-B <- post.b %>% head %>% select(2:4) %>% round(3)
-C <- post.h %>% head %>% select(2:4) %>% round(3)
+A <- post.w %>% head(n=5) %>% select(2:4) %>% round(3)
+B <- post.b %>% head(n=5) %>% select(2:4) %>% round(3)
+C <- post.h %>% head(n=5) %>% select(2:4) %>% round(3)
 rownames(A) = NULL
 rownames(B) = NULL
 rownames(C) = NULL
-ids <- data.frame(ID = substr(post.w$rowname,31,40)) %>% head
+ids <- data.frame(ID = substr(post.w$rowname,31,40)) %>% head(n=5)
 ttt <- cbind(ids,A,B,C)
 names(ttt) <- c("ID","W 2.5%","W 50%", "W 97.5%","B 2.5%","B 50%", "B 97.5%","H 2.5%","H 50%", "H 97.5%")
 ttt %>% kable(caption="Posterior intervals for several officers for three races. From left to right: white, Black, Hispanic", booktabs=T) %>% 
+  column_spec(2,background = "#A1CAF1") %>%
+  column_spec(3,background = "#A1CAF1") %>%
+  column_spec(4,background = "#A1CAF1") %>%
+  column_spec(5,background = "#F4C2C2") %>%
+  column_spec(6,background = "#F4C2C2") %>%
+  column_spec(7,background = "#F4C2C2") %>%
+  column_spec(8,background = "#96C8A2") %>%
+  column_spec(9,background = "#96C8A2") %>%
+  column_spec(10,background = "#96C8A2") %>%
   kable_styling(latex_options = c("scale_down"))
 ```
 
@@ -708,10 +728,23 @@ fairness.df %>% ggplot(aes(x=score)) + geom_histogram(bins=100)
 ex5 <- fairness.df %>% arrange(desc(score)) %>% pull(ID)
 ex5 <- ex5[1:5]
 comparisons %>% filter(ID %in% ex5) %>% mutate_if(is.numeric,round,3) %>% 
+  `names<-`(c("ID", "W. Obs", "B. Obs", "H. Obs", "W. Post.","B. Post.","H. Post.","W. Count","B. Count","H. Count")) %>% 
   kable(caption="Highest 5 scores.", booktabs=T) %>% 
+  column_spec(2,background = "#A1CAF1") %>%
+  column_spec(5,background = "#A1CAF1") %>%
+  column_spec(8,background = "#A1CAF1") %>%
+  column_spec(3,background = "#F4C2C2") %>%
+  column_spec(6,background = "#F4C2C2") %>%
+  column_spec(9,background = "#F4C2C2") %>%
+  column_spec(4,background = "#96C8A2") %>%
+  column_spec(7,background = "#96C8A2") %>%
+  column_spec(10,background = "#96C8A2") %>%
+    
   kable_styling(latex_options = "scale_down")
 
 ```
+
+In the above table, "Obs." columns contain observed hit rates; "Post." columns contain posterior median hit rates; "Count" columns contain the number of instances.
 
 # Conclusion
 
