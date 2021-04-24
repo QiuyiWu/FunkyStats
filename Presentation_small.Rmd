@@ -239,7 +239,7 @@ Examine race proportion in each year:
 
 - Two key elements: Driver race & Stop time
 
-- Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in areas with a larger Black population than white population show substantially different patterns than stops in areas with larger white populations, it could be evidence of racial profiling.  
+- Alternative: measure the racial population in different areas through zip codes. If the number of the stops made during daytime and nighttime in areas with larger black population than white population shows substantially different patterns than the number of stops made in areas with larger white populations, it could be evidence of racial profiling.  
 
 # Veil of Darkness Test
 In order to accurately distinguish the daytime and nighttime, we compute the daily sunset and dusk time for Austin in 2019. 
@@ -263,8 +263,8 @@ For simplicity, here we consider only the black and the white population.
 
 - Daytime Stop: stops happening before sunset
 - Nighttime Stop: stop happening after dusk
-- Majority-Black Area (MBA): areas with a larger Black population than white population
-- Majority-white Area (MWA): areas with a larger white populkation than Black population
+- Majority-Black Area (MBA): areas with a larger Black population 
+- Majority-white Area (MWA): areas with a larger white population 
 
 
 # Veil of Darkness Test
