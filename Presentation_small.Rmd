@@ -65,7 +65,7 @@ Our study consists of three parts:
   
 - APD Racial Profiling Report: contain driver races in general sense
 
-
+<!--
 # Summary Statistics
 \begin{center}
 \includegraphics[width=4.5in]{pic/pic2.png}
@@ -74,6 +74,7 @@ Our study consists of three parts:
 
 - Summary statistics for all stops
 - Summary statistics for for stops during which a search was performed
+-->
 
 ```{r, results='asis', fig.cap="Summary statistics for all stops.",results="hide"}
 options(xtable.comment = FALSE)
@@ -104,7 +105,7 @@ summary.stats.tables <- apply(d.cat,2,tabyl)
 
 ```
 
-
+<!--
 
 ```{r,results='asis', fig.cap="Summary statistics for for stops during which a search was performed.", eval=F}
 summary.stats2 <- d.numeric.search %>% 
@@ -132,15 +133,20 @@ kable(rr,caption ="Search basis.") %>%
   kable_styling(position = "center")
 
 ```
-
+-->
 
 # Summary Statistics
 
 We note that the distribution of stops per officer has an extremely long tail.
 
-```{r, fig.cap = "Distribution of stops by unique officer ID", fig.width=4 ,fig.height=3}
+```{r, fig.cap = "Distribution of stops by unique officer ID", fig.width=4 ,fig.height=2.5}
 officer.counts <- d %>% group_by(officer_id_hash) %>% summarise(`Number of stops per officer` = n()) 
-boxplot(officer.counts$`Number of stops per officer`)
+#boxplot(officer.counts$`Number of stops per officer`)
+#hist(officer.counts$`Number of stops per officer`)
+
+breaks <- c(0,10,100,1000,10000)
+ggplot(officer.counts,aes(`Number of stops per officer`)) + geom_histogram(colour="white", size=0.2) + scale_x_log10('Number of stops per officer', breaks = breaks, labels = breaks)
+
 ```
 
 
@@ -194,12 +200,10 @@ Examine race proportion in each year:
 \includegraphics[width=4.5in]{pic/pic3.png}
 \end{center}
 
-# Benchmark Test Caveats
-
-- The racial disparity by the police is clear from benchmark test, but it is insufficient evidence of discriminative policing.
-  - E.g., if black drivers, hypothetically, spend more time on the road than white drivers, that could explain the higher stop rates for black drivers
-- The key part of this analysis is to find out the true distribution of the drivers violating the traffic laws or conducting crimes. 
-- We need to check if different race groups are disproportionately stopped corresponding to their rates of violating the law. 
+## Benchmark Test Caveats
+- Insufficient evidence of discriminative policing
+- Seek true distribution of the drivers violating the laws 
+- Check if different race groups are disproportionately stopped 
 
 # Outcome Test
 
@@ -212,13 +216,9 @@ Examine race proportion in each year:
 \includegraphics[width=4.5in]{pic/pic3.png}
 \end{center}
 
-# Outcome Test Caveats
-
+## Outcome Test Caveats
 - Only outcomes available: Although the outcome test is simple and intuitive, the actual threshold for searching someone is not observed. 
-
-- Infra-marginality problem: Outcome tests of disparate treatment may only measure the average outcome and not the outcomes associated with the marginal decision. Observing that the average hit rate for minorities was lower than for whites does not necessarily prove that the threshold (or marginal) expected success rate was lower for minorities than for whites
-
-- Subgroup validity problem: When a particular observable characteristic is valid for some races but not for others, it is possible that a decisionmaker who conditions decisions on this characteristic generally might induce racially disparate outcomes. A decisionmaker's unwillingness to engage in disparate racial treatment may induce the racial disparities in outcomes
+- Infra-marginality problem and subgroup validity problem
 
 
 # Veil of Darkness Test
@@ -244,24 +244,17 @@ In order to accurately distinguish the daytime and nighttime, we compute the dai
 Date & Sunset & Dusk & Sunset Minute & Dusk Minute \\
 \hline
 2019-12-02&	17:31:42&	17:57:48&	1051&	1077\\
-2019-12-01&	17:31:45&	17:57:48&	1051&	1077\\
 2019-06-30&	20:37:58&	21:05:27&	1237&	1265\\
-2019-06-29&	20:37:56&	21:05:27&	1237&	1265\\
 \hline
 \end{tabular}
 \end{center}
 
 - Daytime Stop: stops happening before sunset
 - Nighttime Stop: stop happening after the dusk
-
-# Veil of Darkness Test
-
-According to ZIP codes and the corresponding demographic data, we consider 
-
 - Black Dominant Area (BDA): the areas consist of more black people 
 - White Dominated Area (WDA): the areas consist of more white people
 
-For simplicity of the analysis, here we consider only the black and the white population groups. Hence, each zip code is regarded as a location with label as white (WDA) or black (BDA). 
+For simplicity, here we consider only the black and the white population.
 
 # Veil of Darkness Test
 
@@ -282,14 +275,6 @@ WDA & 2937 & 2216\\
 - The sample difference of proportions is 0.074
 - We obtain Fisher's exact test for testing null hypothesis of independence of the two rows with p value of 0.02, indicating the strong evidence that the police are not equally likely practicing during day and night to different racial groups. 
 
-# Veil of Darkness Test Caveats
-
-- Artificial lighting (e.g., from street lamps) can weaken the relationship between sunlight and visibility, and so the method may underestimate the extent to which stops are predicated on perceived race.
-- Vehicle make, year, and model often correlate with race and are still visible at night, which could lead to the test under-estimating the
-extent of racial profiling. 
-- The test doesn't control for stop reason, which is often correlated with both race and time of day. 
-  - E.g: broken tail light stops
-
 
 # Hit Rate and Causal Issues
 - Unmeasured confounders: Crime rates are known to be correlated with income and demographic factors 
@@ -301,9 +286,9 @@ extent of racial profiling.
   - The probability of finding contraband items should be equal among all races, regardless of the neighborhood that the search conducted
   - Using hit rate does not eliminate all unmeasured confounders, but it helps mitigate the problem
 
-
-# Logistic Regression for Frisk Rate
-Our descriptive analysis shows that black people in Austin seem to be more likely to be stopped by the police. We want to answer the question, given a person is stopped, what factors may impact the likelihood of that person being frisked? To investigate this, we fit a logistic regression model with `frisk` as the dependent variable of `race`, `age`, and `sex`. 
+# Logistic Regression
+## Logistic Regression for Frisk Rate
+We want to seek given a person is stopped, what factors may impact the likelihood of that person being frisked? We fit a logistic regression model with `frisk` as the dependent variable of `race`, `age`, and `sex`. 
 
 $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
 
@@ -312,7 +297,7 @@ $$\text{Logit[P(Being Frisked)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{A
 <!--  Logistic model for frisk rate vs. race, age, and sex -->
 <!-- \includegraphics[width=3.5in]{pic/pic4.png} -->
 <!-- \end{center} -->
-
+<!--
 ---
 
 ```{r}
@@ -338,27 +323,30 @@ tidy(mod.1)  %>% mutate(signif = gtools::stars.pval(p.value)) %>%
   mutate(p.value = (paste0(as.character(p.value),signif)), signif=NULL) %>%
   kable(caption = "Logistic model for frisk rate vs. race, age, and sex") %>% 
   kable_styling(position="center", latex_options = "scale_down")
-
 ```
 
+-->
 
+## Logistic Regression for Contraband found
+
+We want to investigate how likely contraband items are found when searching is performed. We argue that if racial bias does not exist, the hit rate should be equal for all races.
+
+$$\text{Logit[P(Contraband found)]} = \beta_0 + \beta_1\text{Race} + \beta_2\text{Age} + \beta_3\text{Sex}$$
+
+We also break down contraband found into three categories: `Drugs`, `Weapons`, and `Others`, and fit a logistic regression model with `Race`. 
+
+
+<!-- 
 
 # Logistic Regression for Contraband found
 
-We want to investigate how likely contraband items are found when searching is performed. We argue that if racial bias does not exist, the hit rate should be equal for all races. In other words, we expect to find that `race` is not an essential factor in the model:
-
-$$\text{Logit[P(Contraband found)]} = \beta_0 + \beta_1\text{Race}.$$
-
-We also break down contraband found into three categories: Drugs, Weapons, and Others. We also fit a logistic regression model for each of these categories with `Race` as the sole independent variable. 
-
-
-# Logistic Regression for Contraband found
-
-<!-- \begin{center} -->
+\begin{center} -->
 
 <!-- Logistic model for contraband found vs. race -->
 <!-- \includegraphics[width=3.5in]{pic/pic5.png} -->
-<!-- \end{center} -->
+<!-- \end{center} 
+
+
 ```{r}
 
 #mod.2 = glm(search_conducted ~ subject_race + subject_age + subject_sex + year, data = austin.dat1, family = binomial())
@@ -434,11 +422,12 @@ tidy(mod.4)  %>% mutate_if(is.numeric,round,3) %>% kable(caption = "Logistic mod
 #summary(mod.7)
 ```
 
+-->
 
 # Logistic Regression
 
 - Black and Hispanic drivers are more likely to be frisked than white drivers
-  - The estimated odd of being frisked for the black is 2.22 times the estimated odd for the white. This odd ratio for Hispanic people is 1.8. 
+  - The estimated odd of being frisked for the black is 2.19 times the estimated odd for the white. This odd ratio for Hispanic people is 1.80. 
   - Asian people is the least likely to be frisked. 
   
 - Contraband items are more likely to be found from Hispanic and black drivers
