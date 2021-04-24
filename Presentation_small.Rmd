@@ -1,7 +1,7 @@
 ---
 title: "Assessing Fair Policing in Austin, TX"
 author: "Team FunkyStats"
-date: "4/18/2021"
+date: "4/24/2021"
 abstract: This report demonstrates disparities by race in traffic stops by the Austin Police Department. After exploratory analysis, we assess various models and statistics derived from the hit rate and using the Veil of Darkness. We conclude with a Bayesian hierarchical model that produces officer-level posteriors for the hit rate.
 output: 
   beamer_presentation:
