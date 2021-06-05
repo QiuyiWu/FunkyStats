@@ -5,7 +5,7 @@
 #race.percent = c(7.8, 0.7, 7.6, 33.9, 48.3, 1.7) 
 #names(race.percent) = c("Black", "Native American", "Asian", "Hispanic", "White", "Others")
 #race.population = pop*race.percent/100
-
+#to remove later
 #race filing report in 2018
 #total.stop = c(17754, 60, 4387 + 2180, 39946, 57173, 685)
 #names(total.stop) = names(race.percent)
